@@ -16,7 +16,7 @@ public class JsonUtil {
     private static Gson gson = null;
 
     static{
-        gson  = new Gson();//todo yyyy-MM-dd HH:mm:ss
+        gson  = new Gson();
     }
 
     public static synchronized Gson newInstance(){
