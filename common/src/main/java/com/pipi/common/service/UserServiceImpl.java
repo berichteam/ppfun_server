@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
             log.error("phone is exist");
             return null;
         }
-        String name = "jsl" + System.currentTimeMillis();
+        String name = "ppl" + System.currentTimeMillis();
         return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
     }
 
