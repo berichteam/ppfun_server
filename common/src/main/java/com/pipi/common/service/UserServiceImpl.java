@@ -6,6 +6,10 @@ import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,4 +54,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByPhone(phone);
     }
 
+    @Override
+    public Page<Users> findAllByPage(Integer page, Integer size) {
+        Pageable pageable = new PageRequest(page - 1, size);
+        return userRepository.findAll(pageable);
+    }
 }

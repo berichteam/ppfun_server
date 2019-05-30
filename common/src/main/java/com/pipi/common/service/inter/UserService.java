@@ -1,6 +1,7 @@
 package com.pipi.common.service.inter;
 
 import com.pipi.common.domain.Users;
+import org.springframework.data.domain.Page;
 
 /**
  * @author lazyb
@@ -31,5 +32,13 @@ public interface UserService {
      * @return
      */
     Users findByPhone(String phone);
+
+    /**
+     * 分页查询所有用户
+     * @param page
+     * @param size
+     * @return
+     */
+    Page<Users> findAllByPage(Integer page, Integer size);
 
 }
