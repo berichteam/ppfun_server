@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Entity
@@ -17,9 +18,6 @@ public class Fun  implements Serializable {
 
 	@Column(name = "user_id")
 	private Integer userId;
-
-	@Column(name = "fun_id")
-	private Integer funId;
 
 	private Integer authority;
 
@@ -41,4 +39,11 @@ public class Fun  implements Serializable {
 	@Column(name = "updated_at")
 	private java.util.Date updatedAt;
 
+	public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
+		this.authority = authority;
+		this.password = password;
+		this.fee = fee;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }

@@ -1,6 +1,7 @@
 package com.pipi.common.service.inter;
 
 import com.pipi.common.domain.Fun;
+import com.pipi.common.vo.FunVo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -9,12 +10,9 @@ import org.springframework.data.domain.Page;
  * @desc 用户文章接口
  **/
 public interface FunService {
-    /**
-     * 分页查询所有用户
-     * @param page
-     * @param size
-     * @return
-     */
+
     Page<Fun> findAllByPage(Integer page, Integer size);
+
+    void funPublish(FunVo funVo);
 
 }

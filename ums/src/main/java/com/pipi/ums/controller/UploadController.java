@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 import java.util.UUID;
 
@@ -47,6 +45,8 @@ public class UploadController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+       URL url= uploadService.getFileFromOSSBlur(fileName);
+        System.out.print("URl："+url);
         FunImages funImages =funImagesRepository.save(new FunImages(fileName,new Date(),new Date()));
 
         return  Result.success(funImages);

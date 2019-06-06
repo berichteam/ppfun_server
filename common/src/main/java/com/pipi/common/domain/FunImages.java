@@ -9,32 +9,42 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "fun_images")
-public class FunImages  implements Serializable {
+public class FunImages implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "fun_id")
-	private Integer funId;
+    @Column(name = "fun_id")
+    private Integer funId;
 
-	@Column(name = "image_url")
-	private String imageUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-	private Integer authority;
+    private Integer authority;
 
-	private String password;
+    private Integer blur;
 
-	@Column(name = "created_at")
-	private java.util.Date createdAt;
+    private String desc;
 
-	@Column(name = "updated_at")
-	private java.util.Date updatedAt;
+    @Column(name = "created_at")
+    private java.util.Date createdAt;
 
-	public FunImages(String imageUrl, Date createdAt, Date updatedAt) {
-		this.imageUrl = imageUrl;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
+    @Column(name = "updated_at")
+    private java.util.Date updatedAt;
+
+    public FunImages(String imageUrl, Date createdAt, Date updatedAt) {
+        this.imageUrl = imageUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public FunImages(Integer id ,Integer funId, Integer blur, String desc, Date updatedAt) {
+        this.id = id;
+        this.funId = funId;
+        this.blur = blur;
+        this.desc = desc;
+        this.updatedAt = updatedAt;
+    }
 
 }

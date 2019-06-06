@@ -1,6 +1,7 @@
 package com.pipi.common.service.inter;
 
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * @author Ryan
@@ -9,6 +10,9 @@ import java.io.InputStream;
  **/
 public interface UploadService {
 
-    void uploadFileToOSS(InputStream inputStream,String fileName);
+    void uploadFileToOSS(InputStream inputStream, String fileName);
 
+    URL getFileFromOSSBlur(String fileName);
+
+    URL getFileFromOSS(String fileName);
 }
