@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -38,6 +39,14 @@ public class Fun  implements Serializable {
 
 	@Column(name = "updated_at")
 	private java.util.Date updatedAt;
+
+
+	@OneToMany(mappedBy = "fun",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<FunImages> funImagesList;
+
+	@OneToOne(mappedBy = "fun",cascade = CascadeType.ALL, orphanRemoval = true)
+	private FunContent funContent;
+
 
 	public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
 		this.authority = authority;

@@ -2,16 +2,11 @@ package com.pipi.common.service;
 
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunContent;
-import com.pipi.common.domain.FunImages;
-import com.pipi.common.domain.Users;
 import com.pipi.common.repository.FunContentRepository;
 import com.pipi.common.repository.FunImagesRepository;
 import com.pipi.common.repository.FunRepository;
-import com.pipi.common.repository.UserRepository;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.service.inter.UploadService;
-import com.pipi.common.service.inter.UserService;
-import com.pipi.common.util.PasswordEncryption;
 import com.pipi.common.vo.FunImagesVo;
 import com.pipi.common.vo.FunVo;
 import lombok.extern.apachecommons.CommonsLog;
@@ -26,8 +21,8 @@ import java.net.URL;
 import java.util.Date;
 
 /**
- * @author lazyb
- * @create 2019/5/24
+ * @author Ryan
+ * @create 2019/6/10
  * @desc 用户接口实现
  **/
 @CommonsLog
