@@ -25,7 +25,7 @@ public class FunImages implements Serializable {
 
     private Integer blur;
 
-    private String desc;
+    private String description;
 
     @Column(name = "created_at")
     private java.util.Date createdAt;
@@ -39,11 +39,11 @@ public class FunImages implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public FunImages(Integer id ,Integer funId, Integer blur, String desc, Date updatedAt) {
+    public FunImages(Integer id ,Integer funId, Integer blur, String description, Date updatedAt) {
         this.id = id;
         this.funId = funId;
         this.blur = blur;
-        this.desc = desc;
+        this.description = description;
         this.updatedAt = updatedAt;
     }
 
