@@ -12,6 +12,7 @@
         <module>common</module>
         <module>ums</module>
         <module>cms</module>
+        <module>wms</module>
     </modules>
 
     <parent>
