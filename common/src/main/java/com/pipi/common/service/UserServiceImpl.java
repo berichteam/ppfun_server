@@ -74,4 +74,23 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
     }
+
+    @Override
+    public Users loginByName(String name, String password) {
+        Users user = userRepository.findByUserName(name);
+        if (user == null) {
+            log.error("name is error");
+            return null;
+        }
+        if (!PasswordEncryption.BCRYPT.check(password, user.getPassword())) {
+            log.error("password is error");
+            return null;
+        }
+        return user;
+    }
+
+    @Override
+    public Users findByName(String name) {
+        return userRepository.findByUserName(name);
+    }
 }

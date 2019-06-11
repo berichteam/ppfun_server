@@ -79,7 +79,7 @@ public class CheckMsgServiceImpl implements CheckMsgService {
                 checkMsgRepository.save(ck);
             }
             // 然后新增一条验证码
-            String code = String.valueOf((Math.random() * 9 + 1) * 100000);
+            String code = String.valueOf(Double.valueOf((Math.random() * 9 + 1) * 100000).intValue());
             CheckMsg cm = new CheckMsg(phone, code, bizType);
             res = checkMsgRepository.save(cm);
         }

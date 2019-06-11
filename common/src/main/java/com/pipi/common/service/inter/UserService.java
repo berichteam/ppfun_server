@@ -27,11 +27,25 @@ public interface UserService {
     Users login(String phone, String password);
 
     /**
+     * 通过用户名登录
+     * @param name
+     * @return
+     */
+    Users loginByName(String name, String password);
+
+    /**
      * 通过手机号查找用户
      * @param phone
      * @return
      */
     Users findByPhone(String phone);
+
+    /**
+     * 通过用户名查找
+     * @param name
+     * @return
+     */
+    Users findByName(String name);
 
     /**
      * 分页查询所有用户
