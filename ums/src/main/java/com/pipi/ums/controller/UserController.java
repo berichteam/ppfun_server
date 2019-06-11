@@ -94,6 +94,7 @@ public class UserController {
         CheckMsg ck = checkMsgService.addOneCode(phone, BizType.REGISTER);
         if (ck != null) {
             log.info("sms code: " + ck.getCode());
+            // TODO 这里需要加入短信发送的逻辑
             return Result.success(ResultCode.SUCCESS);
         } else {
             return Result.failure(ResultCode.FAILURE);
