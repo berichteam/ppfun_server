@@ -59,4 +59,19 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = new PageRequest(page - 1, size);
         return userRepository.findAll(pageable);
     }
+
+    @Override
+    public Users registerByPhoneAndName(String phone, String name, String password) {
+        Users pu = userRepository.findByPhone(phone);
+        if (pu != null) {
+            log.error("phone is exist");
+            return null;
+        }
+        Users nu = userRepository.findByUserName(name);
+        if (nu != null) {
+            log.error("name is exist");
+            return null;
+        }
+        return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+    }
 }

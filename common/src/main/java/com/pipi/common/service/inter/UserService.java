@@ -41,4 +41,13 @@ public interface UserService {
      */
     Page<Users> findAllByPage(Integer page, Integer size);
 
+    /**
+     * 通过手机号和用户名注册
+     * @param phone
+     * @param name
+     * @param password
+     * @return
+     */
+    Users registerByPhoneAndName(String phone, String name, String password);
+
 }
