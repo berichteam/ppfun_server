@@ -5,10 +5,7 @@ import com.pipi.common.service.inter.FunService;
 import com.pipi.common.vo.FunVo;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,9 +23,9 @@ public class FunController {
     private FunService funService;
 
     @GetMapping(value = "/fun/funList")
-    public Result funList(@RequestBody FunVo funVo, HttpServletRequest request) {
-        funService.findAllByPage(1,10);
-        return Result.success(funVo);
+    public Result funList(@RequestParam("andAuthority") Integer andAuthority, HttpServletRequest request) {
+        funService.findAllByPageAndAuthority(1,1,10);
+        return Result.success( funService.findAllByPageAndAuthority(andAuthority,1,10));
     }
 
 

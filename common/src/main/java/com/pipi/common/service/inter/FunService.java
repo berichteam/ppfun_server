@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
  **/
 public interface FunService {
 
-    Page<Fun> findAllByPage(Integer page, Integer size);
+    Page<Fun> findAllByPageAndAuthority(Integer page, Integer size,Integer authority);
 
     void funPublish(FunVo funVo);
 

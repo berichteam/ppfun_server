@@ -26,7 +26,7 @@ public class FunController {
     @GetMapping("/fun/list")
     public Map<String, Object> getFunList(int page, int rows) {
         Map<String, Object> resMap = new HashMap<>();
-        Page<Fun> pu = funService.findAllByPage(page, rows);
+        Page<Fun> pu = funService.findAllByPageAndAuthority(1,page, rows);
         resMap.put("total", pu.getTotalElements());
         resMap.put("rows", pu.getContent());
         return resMap;

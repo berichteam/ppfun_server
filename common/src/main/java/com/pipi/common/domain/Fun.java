@@ -41,10 +41,12 @@ public class Fun  implements Serializable {
 	private java.util.Date updatedAt;
 
 
-	@OneToMany(mappedBy = "fun",cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="fun_id")
 	private Set<FunImages> funImagesList;
 
-	@OneToOne(mappedBy = "fun",cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne
+	@JoinColumn(name="fun_id")
 	private FunContent funContent;
 
 

@@ -2,6 +2,7 @@ package com.pipi.common.repository;
 
 import com.pipi.common.domain.Fun;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +11,7 @@ import org.springframework.stereotype.Repository;
  * @desc 文章库
  **/
 @Repository
-public interface FunRepository extends JpaRepository<Fun, Long> {
+public interface FunRepository extends JpaRepository<Fun, Long>, JpaSpecificationExecutor<Fun> {
+
+
 }
