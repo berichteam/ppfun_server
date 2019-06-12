@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.FunMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.Fun" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="authority" property="authority" jdbcType="BIT" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="catalog_id" property="catalogId" jdbcType="INTEGER" />
+    <result column="catalog_child_id" property="catalogChildId" jdbcType="INTEGER" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from fun
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pipi.common.domain.Fun" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fun (user_id, authority, `password`, 
+      fee, catalog_id, catalog_child_id, 
+      tag, created_at, updated_at
+      )
+    values (#{userId,jdbcType=BIGINT}, #{authority,jdbcType=BIT}, #{password,jdbcType=VARCHAR}, 
+      #{fee,jdbcType=DECIMAL}, #{catalogId,jdbcType=INTEGER}, #{catalogChildId,jdbcType=INTEGER}, 
+      #{tag,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.Fun" >
+    update fun
+    set user_id = #{userId,jdbcType=BIGINT},
+      authority = #{authority,jdbcType=BIT},
+      `password` = #{password,jdbcType=VARCHAR},
+      fee = #{fee,jdbcType=DECIMAL},
+      catalog_id = #{catalogId,jdbcType=INTEGER},
+      catalog_child_id = #{catalogChildId,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, user_id, authority, `password`, fee, catalog_id, catalog_child_id, tag, 
+    created_at, updated_at
+    from fun
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, authority, `password`, fee, catalog_id, catalog_child_id, tag, 
+    created_at, updated_at
+    from fun
+  </select>
+</mapper>

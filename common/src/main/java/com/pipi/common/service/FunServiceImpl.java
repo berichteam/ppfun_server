@@ -61,6 +61,8 @@ public class FunServiceImpl implements FunService {
         List<Predicate> list = Lists.newArrayList();
         if (authority!=0) {
             list.add(criteriaBuilder.equal(root.get("authority").as(String.class), "=" + authority));
+            Join<Fun, FunContent> join = root.join("fun_content", JoinType.LEFT);
+            list.add(criteriaBuilder.equal(join.get("fun_id"), "=" + authority));
         }
 
         Predicate[] p = new Predicate[list.size()];

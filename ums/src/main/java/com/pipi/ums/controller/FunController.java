@@ -24,7 +24,6 @@ public class FunController {
 
     @GetMapping(value = "/fun/funList")
     public Result funList(@RequestParam("andAuthority") Integer andAuthority, HttpServletRequest request) {
-        funService.findAllByPageAndAuthority(1,1,10);
         return Result.success( funService.findAllByPageAndAuthority(andAuthority,1,10));
     }
 
