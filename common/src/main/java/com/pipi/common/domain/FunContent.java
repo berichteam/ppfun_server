@@ -21,7 +21,7 @@ public class FunContent implements Serializable {
 
     private String content;
 
-    private Boolean authority;
+    private Integer authority;
 
     private String password;
 
@@ -30,6 +30,14 @@ public class FunContent implements Serializable {
     private Date updateAt;
 
     private static final long serialVersionUID = 1L;
+
+    public FunContent(Long funId, String title, String content, Date createdAt, Date updateAt) {
+        this.funId = funId;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+    }
 
     @Override
     public String toString() {

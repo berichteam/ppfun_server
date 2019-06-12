@@ -1,16 +1,15 @@
 package com.pipi.common.service;
 
 import com.pipi.common.domain.Users;
-import com.pipi.common.repository.UserRepository;
+import com.pipi.common.persistence.mapper.UsersMapper;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
 import lombok.extern.apachecommons.CommonsLog;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author lazyb
@@ -21,23 +20,26 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private UsersMapper userMapper;
 
     @Override
     public Users register(String phone, String password) {
-        Users user = userRepository.findByPhone(phone);
+        Users user = userMapper.selectByPhone(phone);
         if (user != null) {
             log.error("phone is exist");
             return null;
         }
         String name = "ppl" + System.currentTimeMillis();
-        return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+        Users users =new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
+        int userId =userMapper.insert(users);
+        users.setId((Long.valueOf(userId+"")));
+        return users;
     }
 
     @Override
     public Users login(String phone, String password) {
-        Users user = userRepository.findByPhone(phone);
+        Users user = userMapper.selectByPhone(phone);
         if (user == null) {
             log.error("phone is error");
             return null;
@@ -51,33 +53,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users findByPhone(String phone) {
-        return userRepository.findByPhone(phone);
+        return userMapper.selectByPhone(phone);
     }
 
     @Override
-    public Page<Users> findAllByPage(Integer page, Integer size) {
+    public List<Users> findAllByPage(Integer page, Integer size) {
         Pageable pageable = new PageRequest(page - 1, size);
-        return userRepository.findAll(pageable);
+        return userMapper.selectAll();
     }
 
     @Override
     public Users registerByPhoneAndName(String phone, String name, String password) {
-        Users pu = userRepository.findByPhone(phone);
+        Users pu = userMapper.selectByPhone(phone);
         if (pu != null) {
             log.error("phone is exist");
             return null;
         }
-        Users nu = userRepository.findByUserName(name);
+        Users nu = userMapper.selectByUserName(name);
         if (nu != null) {
             log.error("name is exist");
             return null;
         }
-        return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+
+        Users users =new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
+        int userId =userMapper.insert(users);
+        users.setId((Long.valueOf(userId+"")));
+        return users;
     }
 
     @Override
     public Users loginByName(String name, String password) {
-        Users user = userRepository.findByUserName(name);
+        Users user = userMapper.selectByUserName(name);
         if (user == null) {
             log.error("name is error");
             return null;
@@ -91,6 +97,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users findByName(String name) {
-        return userRepository.findByUserName(name);
+        return userMapper.selectByUserName(name);
     }
 }

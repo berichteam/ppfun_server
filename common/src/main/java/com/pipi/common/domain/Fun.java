@@ -18,7 +18,7 @@ public class Fun implements Serializable {
 
     private Long userId;
 
-    private Boolean authority;
+    private Integer authority;
 
     private String password;
 
@@ -36,6 +36,14 @@ public class Fun implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+    public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
+        this.authority = authority;
+        this.password = password;
+        this.fee = fee;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

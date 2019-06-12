@@ -1,25 +1,29 @@
 package com.pipi.common.domain;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@Entity
-@Table(name = "fun_images")
+/**
+* Created by Mybatis Generator 2019/06/12
+*/
+@Getter
+@Setter
+@ToString
 public class FunImages implements Serializable {
+    private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long funId;
 
-    @Column(name = "fun_id")
-    private Integer funId;
-
-    @Column(name = "image_url")
     private String imageUrl;
+
+    private String imageBlurUrl;
+
+    private String imageSmallUrl;
+
+    private String imageSmallBlurUrl;
 
     private Integer authority;
 
@@ -27,11 +31,11 @@ public class FunImages implements Serializable {
 
     private String description;
 
-    @Column(name = "created_at")
-    private java.util.Date createdAt;
+    private Date createdAt;
 
-    @Column(name = "updated_at")
-    private java.util.Date updatedAt;
+    private Date updatedAt;
+
+    private static final long serialVersionUID = 1L;
 
     public FunImages(String imageUrl, Date createdAt, Date updatedAt) {
         this.imageUrl = imageUrl;
@@ -39,7 +43,7 @@ public class FunImages implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public FunImages(Integer id ,Integer funId, Integer blur, String description, Date updatedAt) {
+    public FunImages(Long id ,Long funId, Integer blur, String description, Date updatedAt) {
         this.id = id;
         this.funId = funId;
         this.blur = blur;
@@ -47,4 +51,25 @@ public class FunImages implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", funId=").append(funId);
+        sb.append(", imageUrl=").append(imageUrl);
+        sb.append(", imageBlurUrl=").append(imageBlurUrl);
+        sb.append(", imageSmallUrl=").append(imageSmallUrl);
+        sb.append(", imageSmallBlurUrl=").append(imageSmallBlurUrl);
+        sb.append(", authority=").append(authority);
+        sb.append(", blur=").append(blur);
+        sb.append(", description=").append(description);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 }

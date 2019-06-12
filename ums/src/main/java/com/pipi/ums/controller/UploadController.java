@@ -3,6 +3,7 @@ package com.pipi.ums.controller;
 import com.pipi.common.domain.FunImages;
 import com.pipi.common.domain.Result;
 import com.pipi.common.repository.FunImagesRepository;
+import com.pipi.common.service.inter.FunImagesService;
 import com.pipi.common.service.inter.UploadService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
     @Autowired
-    private FunImagesRepository funImagesRepository;
+    private FunImagesService funImagesService;
     @PostMapping(value = "/upload/fileUpload")
     public Result fileUpload(@RequestParam(value = "file") MultipartFile file,@RequestParam("mark") Integer mark, HttpServletRequest request) {
         if (file.isEmpty()) {
@@ -47,8 +48,7 @@ public class UploadController {
         }
        URL url= uploadService.getFileFromOSSBlur(fileName);
         System.out.print("URl："+url);
-        FunImages funImages =funImagesRepository.save(new FunImages(fileName,new Date(),new Date()));
-
+        int funImages =funImagesService.insert(new FunImages(fileName,new Date(),new Date()));
         return  Result.success(funImages);
     }
 }

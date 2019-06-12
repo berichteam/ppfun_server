@@ -3,24 +3,21 @@ package com.pipi.common.service;
 import com.google.common.collect.Lists;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunContent;
-import com.pipi.common.repository.FunContentRepository;
-import com.pipi.common.repository.FunImagesRepository;
-import com.pipi.common.repository.FunRepository;
+import com.pipi.common.persistence.mapper.FunContentMapper;
+import com.pipi.common.persistence.mapper.FunImagesMapper;
+import com.pipi.common.persistence.mapper.FunMapper;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.service.inter.UploadService;
 import com.pipi.common.vo.FunImagesVo;
 import com.pipi.common.vo.FunVo;
 import lombok.extern.apachecommons.CommonsLog;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +31,11 @@ import java.util.List;
 public class FunServiceImpl implements FunService {
 
     @Autowired
-    private FunRepository funRepository;
-
+    private FunMapper funMapper;
     @Autowired
-    private FunContentRepository funContentRepository;
+    private FunContentMapper funContentMapper;
     @Autowired
-    private FunImagesRepository funImagesRepository;
+    private FunImagesMapper funImagesMapper;
     @Autowired
     private UploadService uploadService;
 
@@ -50,12 +46,11 @@ public class FunServiceImpl implements FunService {
 //    }
 
     @Override
-    public Page<Fun> findAllByPageAndAuthority(Integer authority, Integer page, Integer size){
+    public List<Fun> findAllByPageAndAuthority(Integer authority, Integer page, Integer size){
         //这里可在 Pageable 里构建 Sort 用来排序
         Pageable pageable = new PageRequest(page-1, size);
-        Page<Fun> housings = funRepository.findAll((root, criteriaQuery, criteriaBuilder)
-                -> getPredicate(authority, root, criteriaBuilder), pageable);
-        return housings;
+
+        return funMapper.selectAll();
     }
     private Predicate getPredicate(Integer authority, Root<Fun> root, CriteriaBuilder criteriaBuilder) {
         List<Predicate> list = Lists.newArrayList();
@@ -72,18 +67,18 @@ public class FunServiceImpl implements FunService {
     @Override
     @Transactional
     public void funPublish(FunVo funVo) {
-        Fun fun = funRepository.save(new Fun(funVo.getAuthority(), funVo.getPassword(), funVo.getFee(), new Date(), new Date()));
-        funContentRepository.save(new FunContent(fun.getId(), funVo.getTitle(), funVo.getContent(), new Date(), new Date()));
+        Integer funId = funMapper.insert(new Fun(funVo.getAuthority(), funVo.getPassword(), funVo.getFee(), new Date(), new Date()));
+        funContentMapper.insert(new FunContent(Long.parseLong(funId+""), funVo.getTitle(), funVo.getContent(), new Date(), new Date()));
         for (FunImagesVo funImages : funVo.getImages()
         ) {
             //图片模糊处理
-            if(funImages.getBlur()==1) {
-                String imageUrl = funImagesRepository.getUrlById(funImages.getId());
-                URL url =uploadService.getFileFromOSS(imageUrl);
-                funImagesRepository.updateOneWithBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(),url.toString(), funImages.getId());
-            }else {
-                funImagesRepository.updateOneWithOutBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(), funImages.getId());
-            }
+//            if(funImages.getBlur()==1) {
+//                String imageUrl = funContentMapper.getUrlById(funImages.getId());
+//                URL url =uploadService.getFileFromOSS(imageUrl);
+//                funImagesRepository.updateOneWithBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(),url.toString(), funImages.getId());
+//            }else {
+//                funImagesRepository.updateOneWithOutBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(), funImages.getId());
+//            }
         }
     }
 }

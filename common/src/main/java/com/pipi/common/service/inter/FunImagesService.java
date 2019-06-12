@@ -10,5 +10,5 @@ import org.springframework.data.domain.Page;
  * @desc 图片接口
  **/
 public interface FunImagesService {
-
+    int insert(FunImages record);
 }
