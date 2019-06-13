@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public interface FunService {
 
-    List<FunDTO> findAllByPageAndAuthority(Integer page, Integer size, Integer authority);
+    List<FunDTO> findAllByPageAndAuthority(Integer authority);
 
     void funPublish(FunVo funVo);
 

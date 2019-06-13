@@ -27,6 +27,7 @@
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
         <association property="funContent" column="id" select="com.pipi.common.persistence.mapper.FunContentMapper.selectByFunId"/>
+        <collection property="funImages" ofType="com.pipi.common.domain.FunImages" column="id" select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId"></collection>
     </resultMap>
 
 

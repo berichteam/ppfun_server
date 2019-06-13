@@ -10,9 +10,19 @@ import java.net.URL;
  **/
 public interface UploadService {
 
-    void uploadFileToOSS(InputStream inputStream, String fileName);
+    void uploadFile2OSSPublic(InputStream inputStream, String fileName);
+
+    void uploadFile2OSSPrivate(InputStream inputStream, String fileName);
 
     URL getFileFromOSSBlur(String fileName);
 
-    URL getFileFromOSS(String fileName);
+    /**
+     * 1.将原图复制到公共的bucket中
+     * 2.将公共的bucket中的图片模糊处理并持久化
+     * 3.将公共的bucket中的原图删除
+     *
+     * @param fileName
+     * @return
+     */
+    URL handleFileInOSS(String fileName);
 }

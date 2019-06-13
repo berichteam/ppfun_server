@@ -3,12 +3,14 @@ package com.pipi.common.persistence.dto;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunContent;
 import com.pipi.common.domain.FunImages;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class FunDTO extends Fun implements Serializable {
 
     private FunContent funContent;

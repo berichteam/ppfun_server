@@ -2,6 +2,8 @@ package com.pipi.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,25 +16,25 @@ import lombok.ToString;
 @ToString
 public class FunImages implements Serializable {
     private Long id;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private Long funId;
 
     private String imageUrl;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private String imageBlurUrl;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private String imageSmallUrl;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private String imageSmallBlurUrl;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private Integer authority;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private Integer blur;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private String description;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private Date createdAt;
-
+    @JsonIgnore  //返回时排除掉这个字段
     private Date updatedAt;
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +50,20 @@ public class FunImages implements Serializable {
         this.funId = funId;
         this.blur = blur;
         this.description = description;
+        this.updatedAt = updatedAt;
+    }
+
+    public FunImages(Long id, Long funId, String imageUrl, String imageBlurUrl, String imageSmallUrl, String imageSmallBlurUrl, Integer authority, Integer blur, String description, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.funId = funId;
+        this.imageUrl = imageUrl;
+        this.imageBlurUrl = imageBlurUrl;
+        this.imageSmallUrl = imageSmallUrl;
+        this.imageSmallBlurUrl = imageSmallBlurUrl;
+        this.authority = authority;
+        this.blur = blur;
+        this.description = description;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 

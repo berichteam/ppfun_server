@@ -16,4 +16,6 @@ public interface FunImagesMapper {
     List<FunImages> selectAll();
 
     int updateByPrimaryKey(FunImages record);
+
+    List<FunImages> selectAllByFunId(Long funId);
 }

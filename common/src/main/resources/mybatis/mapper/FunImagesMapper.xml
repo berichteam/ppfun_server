@@ -18,7 +18,7 @@
     delete from fun_images
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.pipi.common.domain.FunImages" >
+  <insert id="insert" parameterType="com.pipi.common.domain.FunImages">
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -55,5 +55,12 @@
     select id, fun_id, image_url, image_blur_url, image_small_url, image_small_blur_url, 
     authority, blur, description, created_at, updated_at
     from fun_images
+  </select>
+
+  <select id="selectAllByFunId" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+    select id, fun_id, image_url, image_blur_url, image_small_url, image_small_blur_url,
+    authority, blur, description, created_at, updated_at
+    from fun_images
+    where fun_id=#{funId,jdbcType=BIGINT}
   </select>
 </mapper>
