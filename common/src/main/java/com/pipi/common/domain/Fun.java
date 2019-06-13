@@ -1,67 +1,60 @@
 package com.pipi.common.domain;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Set;
 
-/**
-* Created by Mybatis Generator 2019/06/12
-*/
-@Getter
-@Setter
-@ToString
-public class Fun implements Serializable {
-    private Long id;
+@Data
+@Entity
+@Table(name = "fun")
+public class Fun  implements Serializable {
 
-    private Long userId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
-    private Integer authority;
+	@Column(name = "user_id")
+	private Integer userId;
 
-    private String password;
+	private Integer authority;
 
-    private BigDecimal fee;
+	private String password;
 
-    private Integer catalogId;
+	private BigDecimal fee;
 
-    private Integer catalogChildId;
+	@Column(name = "catalog_id")
+	private Integer catalogId;
 
-    private String tag;
+	@Column(name = "catalog_child_id")
+	private Integer catalogChildId;
 
-    private Date createdAt;
+	private String tag;
 
-    private Date updatedAt;
+	@Column(name = "created_at")
+	private java.util.Date createdAt;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "updated_at")
+	private java.util.Date updatedAt;
 
 
-    public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
-        this.authority = authority;
-        this.password = password;
-        this.fee = fee;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
-        sb.append(", authority=").append(authority);
-        sb.append(", password=").append(password);
-        sb.append(", fee=").append(fee);
-        sb.append(", catalogId=").append(catalogId);
-        sb.append(", catalogChildId=").append(catalogChildId);
-        sb.append(", tag=").append(tag);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", updatedAt=").append(updatedAt);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	@OneToMany
+	@JoinColumn(name="fun_id")
+	private Set<FunImages> funImagesList;
+
+	@OneToOne
+	@JoinColumn(name="fun_id")
+	private FunContent funContent;
+
+
+	public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
+		this.authority = authority;
+		this.password = password;
+		this.fee = fee;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }

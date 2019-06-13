@@ -1,60 +1,42 @@
 package com.pipi.common.domain;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-/**
-* Created by Mybatis Generator 2019/06/12
-*/
-@Getter
-@Setter
-@ToString
-public class FunContent implements Serializable {
-    private Long id;
+@Data
+@Entity
+@Table(name = "fun_content")
+public class FunContent  implements Serializable {
 
-    private Long funId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
-    private String title;
+	@Column(name = "fun_id")
+	private Integer funId;
 
-    private String content;
+	private String title;
 
-    private Integer authority;
+	private String content;
 
-    private String password;
+	private Integer authority;
 
-    private Date createdAt;
+	private String password;
 
-    private Date updateAt;
+	@Column(name = "created_at")
+	private java.util.Date createdAt;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "update_at")
+	private java.util.Date updateAt;
 
-    public FunContent(Long funId, String title, String content, Date createdAt, Date updateAt) {
-        this.funId = funId;
-        this.title = title;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updateAt = updateAt;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", funId=").append(funId);
-        sb.append(", title=").append(title);
-        sb.append(", content=").append(content);
-        sb.append(", authority=").append(authority);
-        sb.append(", password=").append(password);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", updateAt=").append(updateAt);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	public FunContent(Integer funId, String title, String content, Date createdAt, Date updateAt) {
+		this.funId = funId;
+		this.title = title;
+		this.content = content;
+		this.createdAt = createdAt;
+		this.updateAt = updateAt;
+	}
 }

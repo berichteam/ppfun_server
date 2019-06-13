@@ -3,8 +3,6 @@ package com.pipi.common.service.inter;
 import com.pipi.common.domain.Users;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 /**
  * @author lazyb
  * @create 2019/5/24
@@ -55,7 +53,7 @@ public interface UserService {
      * @param size
      * @return
      */
-    List<Users> findAllByPage(Integer page, Integer size);
+    Page<Users> findAllByPage(Integer page, Integer size);
 
     /**
      * 通过手机号和用户名注册
