@@ -1,5 +1,7 @@
 package com.pipi.ums.controller;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.pipi.common.domain.CheckMsg;
 import com.pipi.common.domain.Result;
 import com.pipi.common.domain.Users;
@@ -8,7 +10,9 @@ import com.pipi.common.enums.ResultCode;
 import com.pipi.common.service.inter.CheckMsgService;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.ums.utils.JwtTokenUtils;
+import com.pipi.ums.wxserver.WxMaConfiguration;
 import lombok.extern.apachecommons.CommonsLog;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,19 +39,20 @@ public class UserController {
      * 用户注册
      * @param username
      * @param password
-     * @param confirm_password
-     * @param sms_code
+     * @param confirmPassword
+     * @param smsCode
      * @param phone
      * @return
      */
     @PostMapping("/user/register")
-    public Result register(@RequestParam String username, @RequestParam String password, @RequestParam String confirm_password,
-                           @RequestParam String sms_code, @RequestParam String phone) {
-        if (!password.equals(confirm_password)) {
+    public Result register(@RequestParam String username, @RequestParam String password,
+                           @RequestParam(name = "confirm_password") String confirmPassword,
+                           @RequestParam(name = "sms_code") String smsCode, @RequestParam String phone) {
+        if (!password.equals(confirmPassword)) {
             log.error("密码确认错误");
             return Result.failure(ResultCode.USER_CONFIRM_PASSWORD_ERROR);
         }
-        if (!checkMsgService.checkCode(phone, sms_code, BizType.REGISTER)) {
+        if (!checkMsgService.checkCode(phone, smsCode, BizType.REGISTER)) {
             log.error("验证码错误");
             return Result.failure(ResultCode.USER_CHECK_CODE_ERROR);
         }
@@ -82,6 +87,30 @@ public class UserController {
         Map<String, String> res = new HashMap<>();
         res.put("auth_token", token);
         return Result.success(ResultCode.SUCCESS, res);
+    }
+
+    /**
+     * 社交媒体登录
+     * @param socialType
+     * @param code
+     * @return
+     */
+    @PostMapping("/user/login/social")
+    public Result loginSocial(@RequestParam(name = "social_type") String socialType, @RequestParam String code) {
+        if (!socialType.equals("wechat")) {
+            return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
+        }
+        WxMaService wxService = WxMaConfiguration.getMaService();
+        try {
+            final WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+            log.info("session_key: " + session.getSessionKey());
+            log.info("open_id: " + session.getOpenid());
+            //TODO 可以增加自己的逻辑，关联业务相关数据
+            return Result.success(ResultCode.SUCCESS, session);
+        } catch (WxErrorException e) {
+            log.error(e.getMessage(), e);
+            return Result.success(ResultCode.FAILURE, e.getMessage());
+        }
     }
 
     /**
