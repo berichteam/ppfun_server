@@ -1,6 +1,7 @@
 package com.pipi.ums.controller;
 
 import com.pipi.common.domain.Result;
+import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.vo.FunVo;
 import lombok.extern.apachecommons.CommonsLog;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Ryan
@@ -23,8 +25,11 @@ public class FunController {
     private FunService funService;
 
     @GetMapping(value = "/fun/funList")
-    public Result funList(@RequestParam("andAuthority") Integer andAuthority, HttpServletRequest request) {
-        return Result.success( funService.findAllByPageAndAuthority(andAuthority,1,10));
+    @ResponseBody
+    public List funList(@RequestParam("andAuthority") Integer andAuthority, HttpServletRequest request) {
+
+       List<FunDTO> list =funService.findAllByPageAndAuthority(andAuthority,1,10);
+        return list;
     }
 
 

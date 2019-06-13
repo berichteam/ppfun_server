@@ -16,4 +16,6 @@ public interface FunContentMapper {
     List<FunContent> selectAll();
 
     int updateByPrimaryKey(FunContent record);
+
+    FunContent selectByFunId(Long funId);
 }

@@ -1,6 +1,7 @@
 package com.pipi.common.domain;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,16 +26,27 @@ public class FunContent implements Serializable {
 
     private String password;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 
-    private Date updateAt;
+    private Timestamp updateAt;
 
     private static final long serialVersionUID = 1L;
 
-    public FunContent(Long funId, String title, String content, Date createdAt, Date updateAt) {
+    public FunContent(Long funId, String title, String content, Timestamp createdAt, Timestamp updateAt) {
         this.funId = funId;
         this.title = title;
         this.content = content;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+    }
+
+    public FunContent(Long id, Long funId, String title, String content, Integer authority, String password, Timestamp createdAt, Timestamp updateAt) {
+        this.id = id;
+        this.funId = funId;
+        this.title = title;
+        this.content = content;
+        this.authority = authority;
+        this.password = password;
         this.createdAt = createdAt;
         this.updateAt = updateAt;
     }

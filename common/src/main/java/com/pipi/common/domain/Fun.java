@@ -37,7 +37,7 @@ public class Fun implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
+     public Fun(Integer authority, String password, BigDecimal fee, Date createdAt, Date updatedAt) {
         this.authority = authority;
         this.password = password;
         this.fee = fee;

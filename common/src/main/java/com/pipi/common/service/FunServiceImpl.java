@@ -1,8 +1,13 @@
 package com.pipi.common.service;
 
+import com.alibaba.druid.sql.visitor.functions.Now;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunContent;
+import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.persistence.mapper.FunContentMapper;
 import com.pipi.common.persistence.mapper.FunImagesMapper;
 import com.pipi.common.persistence.mapper.FunMapper;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -46,11 +52,12 @@ public class FunServiceImpl implements FunService {
 //    }
 
     @Override
-    public List<Fun> findAllByPageAndAuthority(Integer authority, Integer page, Integer size){
+    public List<FunDTO> findAllByPageAndAuthority(Integer authority, Integer page, Integer size){
         //这里可在 Pageable 里构建 Sort 用来排序
-        Pageable pageable = new PageRequest(page-1, size);
-
-        return funMapper.selectAll();
+        PageHelper.startPage(1, 2);
+        List<FunDTO> funList =funMapper.selectFunByAuthority(authority);
+//        PageInfo<Fun> pageInfo = new PageInfo<Fun>(funList);
+        return funList;
     }
     private Predicate getPredicate(Integer authority, Root<Fun> root, CriteriaBuilder criteriaBuilder) {
         List<Predicate> list = Lists.newArrayList();
@@ -68,7 +75,7 @@ public class FunServiceImpl implements FunService {
     @Transactional
     public void funPublish(FunVo funVo) {
         Integer funId = funMapper.insert(new Fun(funVo.getAuthority(), funVo.getPassword(), funVo.getFee(), new Date(), new Date()));
-        funContentMapper.insert(new FunContent(Long.parseLong(funId+""), funVo.getTitle(), funVo.getContent(), new Date(), new Date()));
+        funContentMapper.insert(new FunContent(Long.parseLong(funId+""), funVo.getTitle(), funVo.getContent(), new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime())));
         for (FunImagesVo funImages : funVo.getImages()
         ) {
             //图片模糊处理

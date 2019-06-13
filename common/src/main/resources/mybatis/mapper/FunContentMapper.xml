@@ -46,4 +46,11 @@
     select id, fun_id, title, content, authority, `password`, created_at, update_at
     from fun_content
   </select>
+
+  <select id="selectByFunId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, fun_id, title, content, authority, `password`, created_at, update_at
+    from fun_content
+    where fun_id = #{funId,jdbcType=BIGINT}
+  </select>
+
 </mapper>

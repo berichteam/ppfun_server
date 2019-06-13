@@ -1,6 +1,9 @@
 package com.pipi.common.persistence.mapper;
 
+import com.github.pagehelper.Page;
 import com.pipi.common.domain.Fun;
+import com.pipi.common.persistence.dto.FunDTO;
+
 import java.util.List;
 
 /**
@@ -16,4 +19,6 @@ public interface FunMapper {
     List<Fun> selectAll();
 
     int updateByPrimaryKey(Fun record);
+
+    List<FunDTO> selectFunByAuthority(Integer authority);
 }
