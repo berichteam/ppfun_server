@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.CheckMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.CheckMsg" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="biz_type" property="bizType" jdbcType="SMALLINT" />
+    <result column="check_status" property="checkStatus" jdbcType="SMALLINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from check_msg
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pipi.common.domain.CheckMsg" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into check_msg (phone, code, biz_type, 
+      check_status, created_at, updated_at
+      )
+    values (#{phone,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{bizType,jdbcType=SMALLINT}, 
+      #{checkStatus,jdbcType=SMALLINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.CheckMsg" >
+    update check_msg
+    set phone = #{phone,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      biz_type = #{bizType,jdbcType=SMALLINT},
+      check_status = #{checkStatus,jdbcType=SMALLINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, phone, code, biz_type, check_status, created_at, updated_at
+    from check_msg
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, phone, code, biz_type, check_status, created_at, updated_at
+    from check_msg
+  </select>
+</mapper>

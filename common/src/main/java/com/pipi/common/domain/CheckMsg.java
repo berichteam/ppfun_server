@@ -1,62 +1,49 @@
 package com.pipi.common.domain;
 
-import com.pipi.common.enums.BizType;
-import com.pipi.common.enums.CheckStatus;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * @author lazyb
- * @create 2019/6/11
- * @desc 短信核验表实体
- **/
-@Data
-@NoArgsConstructor
+* Created by Mybatis Generator 2019/06/14
+*/
+@Getter
+@Setter
 @ToString
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "check_msg")
-public class CheckMsg {
-
-    @Id
-    @GeneratedValue
+public class CheckMsg implements Serializable {
     private Long id;
 
-    @Column(length = 20)
     private String phone;
 
-    @Column(length = 20)
     private String code;
 
-    @Column(length = 6)
-    @Enumerated(EnumType.ORDINAL)
-    private CheckStatus checkStatus;
+    private Short bizType;
 
-    @Column(length = 6)
-    @Enumerated(EnumType.ORDINAL)
-    private BizType bizType;
+    private Short checkStatus;
 
-    @Column(nullable = false, updatable = false, name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false, name = "updated_at")
-    @LastModifiedDate
     private Date updatedAt;
 
-    public CheckMsg(String phone, String code, BizType bizType) {
-        this.phone = phone;
-        this.code = code;
-        this.bizType = bizType;
-        this.checkStatus = CheckStatus.UNCHECK;
-    }
+    private static final long serialVersionUID = 1L;
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", phone=").append(phone);
+        sb.append(", code=").append(code);
+        sb.append(", bizType=").append(bizType);
+        sb.append(", checkStatus=").append(checkStatus);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 }
