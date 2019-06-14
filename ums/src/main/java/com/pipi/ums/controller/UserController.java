@@ -7,6 +7,7 @@ import com.pipi.common.domain.Result;
 import com.pipi.common.domain.Users;
 import com.pipi.common.enums.BizType;
 import com.pipi.common.enums.ResultCode;
+import com.pipi.common.enums.SocialType;
 import com.pipi.common.service.inter.CheckMsgService;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.ums.utils.JwtTokenUtils;
@@ -105,8 +106,21 @@ public class UserController {
             final WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
             log.info("session_key: " + session.getSessionKey());
             log.info("open_id: " + session.getOpenid());
-            //TODO 可以增加自己的逻辑，关联业务相关数据
-            return Result.success(ResultCode.SUCCESS, session);
+            // 判断用户是否存在，不存在即注册，存在即返回token
+            Users user = userService.loginBySocial(session.getOpenid(), SocialType.WECHAT);
+            if (user == null) {
+                user = userService.registerBySocial(session.getOpenid(), SocialType.WECHAT);
+            }
+            String token = "";
+            try {
+                token = JwtTokenUtils.createToken(user.getUserName());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                log.error("用户生成token失败：" + user.getUserName());
+            }
+            Map<String, String> res = new HashMap<>();
+            res.put("auth_token", token);
+            return Result.success(ResultCode.SUCCESS, res);
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
             return Result.success(ResultCode.FAILURE, e.getMessage());

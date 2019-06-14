@@ -1,6 +1,7 @@
 package com.pipi.common.repository;
 
 import com.pipi.common.domain.Users;
+import com.pipi.common.enums.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +26,13 @@ public interface UserRepository extends JpaRepository<Users, Long> {
      * @return
      */
     Users findByPhone(String phone);
+
+    /**
+     * 通过社交和绑定信息找到用户
+     * @param bindInfo
+     * @param socialType
+     * @return
+     */
+    Users findByBindInfoAndSocialType(String bindInfo, SocialType socialType);
 
 }

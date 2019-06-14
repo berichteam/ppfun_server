@@ -1,5 +1,6 @@
 package com.pipi.common.domain;
 
+import com.pipi.common.enums.SocialType;
 import com.pipi.common.enums.UserType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,11 +54,26 @@ public class Users {
     @LastModifiedDate
     private Date updatedAt;
 
+    @Column(length = 1, name = "social_type")
+    @Enumerated(EnumType.ORDINAL)
+    private SocialType socialType;
+
+    @Column(length = 200)
+    private String avatar;
+
     public Users(String userName, String phone, String password) {
         this.userName = userName;
         this.phone = phone;
         this.password = password;
         this.userType = UserType.NORMAL;
+    }
+
+    public Users(String userName, String password, SocialType socialType, String bindInfo) {
+        this.userName = userName;
+        this.password = password;
+        this.userType = UserType.NORMAL;
+        this.socialType = socialType;
+        this.bindInfo = bindInfo;
     }
 
 }

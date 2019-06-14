@@ -1,6 +1,7 @@
 package com.pipi.common.service;
 
 import com.pipi.common.domain.Users;
+import com.pipi.common.enums.SocialType;
 import com.pipi.common.repository.UserRepository;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
@@ -33,6 +34,20 @@ public class UserServiceImpl implements UserService {
         }
         String name = "ppl" + System.currentTimeMillis();
         return userRepository.save(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+    }
+
+    @Override
+    public Users registerBySocial(String bindInfo, SocialType socialType) {
+        String name = "ppl" + System.currentTimeMillis();
+        String password = PasswordEncryption.BCRYPT.encrypt(String.valueOf(System.currentTimeMillis()));
+        Users user = new Users(name, password, socialType, bindInfo);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Users loginBySocial(String bindInfo, SocialType socialType) {
+        Users user = userRepository.findByBindInfoAndSocialType(bindInfo, socialType);
+        return user;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.pipi.common.service.inter;
 
 import com.pipi.common.domain.Users;
+import com.pipi.common.enums.SocialType;
 import org.springframework.data.domain.Page;
 
 /**
@@ -17,6 +18,22 @@ public interface UserService {
      * @return
      */
     Users register(String phone, String password);
+
+    /**
+     * 通过社交注册
+     * @param bindInfo
+     * @param socialType
+     * @return
+     */
+    Users registerBySocial(String bindInfo, SocialType socialType);
+
+    /**
+     * 通过社交登录
+     * @param bindInfo
+     * @param socialType
+     * @return
+     */
+    Users loginBySocial(String bindInfo, SocialType socialType);
 
     /**
      * 用户登陆
