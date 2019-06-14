@@ -63,34 +63,48 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public URL handleFileInOSS(String fileName) {
+    public Boolean handleFileInOSSByBlur(String originalImageName,String blurImageName) {
         // 开启ossclient
+        boolean res =false;
         OSSClient ossClient = new OSSClient(ossProperties.getEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
         // 拷贝文件
-        String timeName =System.currentTimeMillis()+"";
-       CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), fileName, ossProperties.getBucketNamePublic(),fileName+timeName);
+       CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), originalImageName, ossProperties.getBucketNamePublic(),blurImageName);
         // 图片处理持久化 : 缩放
         StringBuilder sbStyle = new StringBuilder();
         Formatter styleFormatter = new Formatter(sbStyle);
         String styleType = "image/auto-orient,1/quality,q_90/blur,r_50,s_50";
-        String targetImage = "test.png";
+//        String targetImage = "test.png";
         styleFormatter.format("%s|sys/saveas,o_%s,b_%s", styleType,
-                BinaryUtil.toBase64String(targetImage.getBytes()),
+                BinaryUtil.toBase64String(blurImageName.getBytes()),
                 BinaryUtil.toBase64String(ossProperties.getBucketNamePublic().getBytes()));
         System.out.println(sbStyle.toString());
-        ProcessObjectRequest request = new ProcessObjectRequest(ossProperties.getBucketNamePublic(), fileName+timeName, sbStyle.toString());
+        ProcessObjectRequest request = new ProcessObjectRequest(ossProperties.getBucketNamePublic(),blurImageName, sbStyle.toString());
         GenericResult processResult = ossClient.processObject(request);
         String json = null;
         try {
             json = IOUtils.readStreamAsString(processResult.getResponse().getContent(), "UTF-8");
             processResult.getResponse().getContent().close();
+            res=true;
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(json);
-        // 删除文件。
-        ossClient.deleteObject(ossProperties.getBucketNamePublic(), fileName+timeName);
+//        // 删除文件。
+//        ossClient.deleteObject(ossProperties.getBucketNamePublic(), fileName+timeName);
         ossClient.shutdown();
-        return null;
+        return res;
     }
+
+    @Override
+    public Boolean handleFileInOSSByCopy(String originalImageName,String blurImageName) {
+        // 开启ossclient
+        boolean res;
+        OSSClient ossClient = new OSSClient(ossProperties.getEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
+        // 拷贝文件
+        CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), originalImageName, ossProperties.getBucketNamePublic(),blurImageName);
+        ossClient.shutdown();
+        res =true;
+        return res;
+    }
+
 }

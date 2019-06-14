@@ -1,9 +1,9 @@
 package com.pipi.common.service;
 
-import com.google.common.collect.Lists;
 import com.pipi.common.domain.Attachment;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunContent;
+import com.pipi.common.domain.FunImages;
 import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.persistence.mapper.AttachmentMapper;
 import com.pipi.common.persistence.mapper.FunContentMapper;
@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -51,10 +49,10 @@ public class FunServiceImpl implements FunService {
 //    }
 
     @Override
-    public List<FunDTO> findAllByPageAndAuthority(Integer authority){
+    public List<FunDTO> findAllByPageAndAuthority(Integer authority) {
         //这里可在 Pageable 里构建 Sort 用来排序
 
-        List<FunDTO> funList =funMapper.selectFunByAuthority(authority);
+        List<FunDTO> funList = funMapper.selectFunByAuthority(authority);
 //        PageInfo<Fun> pageInfo = new PageInfo<Fun>(funList);
         return funList;
     }
@@ -63,23 +61,34 @@ public class FunServiceImpl implements FunService {
     @Transactional
     public void funPublish(FunVo funVo) {
         //持久化Fun
-        Fun fun =new Fun(funVo.getAuthority(), funVo.getPassword(), funVo.getFee(), new Date(), new Date());
+        Fun fun = new Fun(funVo.getAuthority(), funVo.getPassword(), funVo.getFee(), new Date(), new Date());
         funMapper.insert(fun);
         //持久化FunContent
-        FunContent funContent=new FunContent(fun.getId(), funVo.getTitle(), funVo.getContent(), new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()));
+        FunContent funContent = new FunContent(fun.getId(), funVo.getTitle(), funVo.getContent(), new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()));
         funContentMapper.insert(funContent);
         //持久化FunImages
-        for (FunImagesVo funImages : funVo.getImages()
+        for (FunImagesVo funImagesVo : funVo.getImages()
         ) {
+            Attachment attachment = attachmentMapper.selectByPrimaryKey(Long.valueOf(funImagesVo.getId() + ""));
+            //原始图片对应OSS的key
+            String originalImageName = attachment.getAttachmentName() + attachment.getAttachmentSuffixAme();
+            //操作完成后对应的OSS的key
+            String blurImageName = System.currentTimeMillis() + attachment.getAttachmentSuffixAme();
+
             //图片模糊处理
-            if(funImages.getBlur()==1) {
-                Attachment attachment = attachmentMapper.selectByPrimaryKey(Long.valueOf(funImages.getId()+""));
+            FunImages funImages = new FunImages();
+            funImages.setFunId(fun.getId());
+            funImages.setAttachmentId(attachment.getId());
+            funImages.setBlur(funImagesVo.getBlur());
+            funImages.setDescription(funImagesVo.getDesc());
+            funImages.setImageUrl(originalImageName);
+            if (funImagesVo.getBlur() == 1) {
                 //将文件复制到公告bucket中
-                URL url =uploadService.handleFileInOSS(attachment.getAttachmentName()+attachment.getAttachmentSuffixAme());
-//                funImagesRepository.updateOneWithBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(),url.toString(), funImages.getId());
-            }else {
-//                funImagesRepository.updateOneWithOutBlur(fun.getId(), funImages.getBlur(), funImages.getDesc(), funImages.getId());
+                uploadService.handleFileInOSSByBlur(originalImageName, blurImageName);
+            } else {
+                uploadService.handleFileInOSSByCopy(originalImageName, blurImageName);
             }
+            funImagesMapper.insert(funImages);
         }
     }
 }

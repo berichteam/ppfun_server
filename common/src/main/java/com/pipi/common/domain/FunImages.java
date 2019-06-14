@@ -19,13 +19,8 @@ public class FunImages implements Serializable {
     @JsonIgnore  //返回时排除掉这个字段
     private Long funId;
 
+    private Long attachmentId;
     private String imageUrl;
-    @JsonIgnore  //返回时排除掉这个字段
-    private String imageBlurUrl;
-    @JsonIgnore  //返回时排除掉这个字段
-    private String imageSmallUrl;
-    @JsonIgnore  //返回时排除掉这个字段
-    private String imageSmallBlurUrl;
     @JsonIgnore  //返回时排除掉这个字段
     private Integer authority;
     @JsonIgnore  //返回时排除掉这个字段
@@ -38,6 +33,10 @@ public class FunImages implements Serializable {
     private Date updatedAt;
 
     private static final long serialVersionUID = 1L;
+
+
+    public FunImages() {
+    }
 
     public FunImages(String imageUrl, Date createdAt, Date updatedAt) {
         this.imageUrl = imageUrl;
@@ -57,9 +56,6 @@ public class FunImages implements Serializable {
         this.id = id;
         this.funId = funId;
         this.imageUrl = imageUrl;
-        this.imageBlurUrl = imageBlurUrl;
-        this.imageSmallUrl = imageSmallUrl;
-        this.imageSmallBlurUrl = imageSmallBlurUrl;
         this.authority = authority;
         this.blur = blur;
         this.description = description;
@@ -76,9 +72,6 @@ public class FunImages implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", funId=").append(funId);
         sb.append(", imageUrl=").append(imageUrl);
-        sb.append(", imageBlurUrl=").append(imageBlurUrl);
-        sb.append(", imageSmallUrl=").append(imageSmallUrl);
-        sb.append(", imageSmallBlurUrl=").append(imageSmallBlurUrl);
         sb.append(", authority=").append(authority);
         sb.append(", blur=").append(blur);
         sb.append(", description=").append(description);

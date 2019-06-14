@@ -21,8 +21,12 @@ public interface UploadService {
      * 2.将公共的bucket中的图片模糊处理并持久化
      * 3.将公共的bucket中的原图删除
      *
-     * @param fileName
+     * @param originalImageName
+     * @param blurImageName
+     *
      * @return
      */
-    URL handleFileInOSS(String fileName);
+    Boolean handleFileInOSSByBlur(String originalImageName,String blurImageName);
+
+    Boolean handleFileInOSSByCopy(String originalImageName,String blurImageName);
 }

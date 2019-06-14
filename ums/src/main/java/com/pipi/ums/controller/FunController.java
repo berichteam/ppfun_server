@@ -20,6 +20,7 @@ import java.util.List;
  **/
 @RestController
 @CommonsLog
+@RequestMapping("/article")
 public class FunController {
 
 
@@ -27,23 +28,18 @@ public class FunController {
     private FunService funService;
 
 
-    @PostMapping(value = "/article")
+    @PostMapping
     public Result funPublish(@RequestBody FunVo funVo, HttpServletRequest request) {
         funService.funPublish(funVo);
         return Result.success(funVo);
     }
 
-    @GetMapping(value = "/fun/funList")
-    @ResponseBody
-    public Result funList(@RequestParam("andAuthority") Integer andAuthority, HttpServletRequest request) {
+    @GetMapping("/{id}")
+    public Result funList(@PathVariable String id, HttpServletRequest request) {
         PageHelper.startPage(1, 4);
-        List<FunDTO> list = funService.findAllByPageAndAuthority(andAuthority);
+        List<FunDTO> list = funService.findAllByPageAndAuthority(1);
         PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
         return Result.success(pageInfo);
     }
-
-
-
-
 
 }
