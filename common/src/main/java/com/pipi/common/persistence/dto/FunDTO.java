@@ -10,6 +10,13 @@ import java.util.List;
 @Data
 public class FunDTO extends Fun implements Serializable {
 
+    private int viewCount;
+    private int giftCount;
+    private int starCount;
+
+    private String smallUrl;
+    private String bigUrl;
+
     private List<FunImages> funImages;
 
 }

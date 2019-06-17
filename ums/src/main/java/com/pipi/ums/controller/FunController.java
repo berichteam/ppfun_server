@@ -2,10 +2,7 @@ package com.pipi.ums.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pipi.common.domain.FunGift;
-import com.pipi.common.domain.FunStar;
-import com.pipi.common.domain.Result;
-import com.pipi.common.domain.Users;
+import com.pipi.common.domain.*;
 import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.vo.FunVo;
@@ -121,6 +118,16 @@ public class FunController {
         funGift.setCreatedAt(new Date());
         funService.funGift(funGift);
         return Result.success(funGift);
+    }
+
+    @GetMapping(value = "/{id}/viewed")
+    public Result funView(@PathVariable String id, HttpServletRequest request) {
+//        Users user = (Users) request.getAttribute("user");
+        FunView funView =new FunView();
+        funView.setFunId(Long.parseLong(id));
+//        funView.setUserId(user.getId());
+        funService.funView(funView);
+        return Result.success(funView);
     }
 
 }

@@ -40,4 +40,10 @@
     select id, fun_id, user_id, gift_id, amount, created_at
     from fun_gift
   </select>
+  <select id="countByFunId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(1)
+    from fun_gift
+    where  fun_id =#{funId,jdbcType=BIGINT}
+  </select>
+
 </mapper>

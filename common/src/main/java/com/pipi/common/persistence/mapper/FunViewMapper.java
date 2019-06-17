@@ -16,4 +16,6 @@ public interface FunViewMapper {
     List<FunView> selectAll();
 
     int updateByPrimaryKey(FunView record);
+
+    int countByFunId(Long funId);
 }

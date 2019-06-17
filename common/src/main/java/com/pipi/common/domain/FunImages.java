@@ -32,6 +32,11 @@ public class FunImages implements Serializable {
     @JsonIgnore  //返回时排除掉这个字段
     private Date updatedAt;
 
+    private String bigUrl;
+    private String smallUrl;
+
+
+
     private static final long serialVersionUID = 1L;
 
 

@@ -31,8 +31,16 @@
         <result column="tag" property="tag" jdbcType="VARCHAR"/>
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <!--计算用户收藏数-->
+        <association property="starCount" column="id" select="com.pipi.common.persistence.mapper.FunStarMapper.countByFunId"/>
+        <!--计算用户点赞数-->
+        <association property="giftCount" column="id" select="com.pipi.common.persistence.mapper.FunGiftMapper.countByFunId"/>
+        <!--计算用户浏览数-->
+        <association property="viewCount" column="id" select="com.pipi.common.persistence.mapper.FunViewMapper.countByFunId"/>
+        <!--文章图片-->
         <collection property="funImages" ofType="com.pipi.common.domain.FunImages" column="id"
-                    select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId"></collection>
+                    select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId">
+        </collection>
     </resultMap>
 
 

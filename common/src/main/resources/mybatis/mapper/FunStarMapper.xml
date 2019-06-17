@@ -36,4 +36,10 @@
     select id, fun_id, user_id, created_at
     from fun_star
   </select>
+  <select id="countByFunId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(1)
+    from fun_star
+    where fun_id=#{funId,jdbcType=BIGINT}
+  </select>
+
 </mapper>

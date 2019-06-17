@@ -16,4 +16,6 @@ public interface FunGiftMapper {
     List<FunGift> selectAll();
 
     int updateByPrimaryKey(FunGift record);
+
+    int countByFunId(Long funId);
 }

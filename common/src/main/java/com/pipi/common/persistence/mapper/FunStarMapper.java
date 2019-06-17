@@ -16,4 +16,6 @@ public interface FunStarMapper {
     List<FunStar> selectAll();
 
     int updateByPrimaryKey(FunStar record);
+
+    int countByFunId(Long funId);
 }
