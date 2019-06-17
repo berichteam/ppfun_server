@@ -3,12 +3,15 @@
 <mapper namespace="com.pipi.common.persistence.mapper.FunMapper">
     <resultMap id="BaseResultMap" type="com.pipi.common.domain.Fun">
         <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="authority" property="authority" jdbcType="INTEGER"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="fee" property="fee" jdbcType="DECIMAL"/>
         <result column="catalog_id" property="catalogId" jdbcType="INTEGER"/>
         <result column="catalog_child_id" property="catalogChildId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="tag" property="tag" jdbcType="VARCHAR"/>
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
@@ -18,6 +21,8 @@
     <resultMap type="com.pipi.common.persistence.dto.FunDTO" id="FunDTOResultMap">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="authority" property="authority" jdbcType="INTEGER"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="fee" property="fee" jdbcType="DECIMAL"/>
@@ -26,10 +31,9 @@
         <result column="tag" property="tag" jdbcType="VARCHAR"/>
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
-        <association property="funContent" column="id" select="com.pipi.common.persistence.mapper.FunContentMapper.selectByFunId"/>
-        <collection property="funImages" ofType="com.pipi.common.domain.FunImages" column="id" select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId"></collection>
+        <collection property="funImages" ofType="com.pipi.common.domain.FunImages" column="id"
+                    select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId"></collection>
     </resultMap>
-
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -40,45 +44,87 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into fun (user_id, authority, `password`,
-        fee, catalog_id, catalog_child_id,
+        insert into fun (user_id,title,content,authority, `password`,
+        fee, catalog_id, catalog_child_id,status,
         tag, created_at, updated_at
         )
-        values (#{userId,jdbcType=BIGINT}, #{authority,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR},
+        values (#{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+        #{authority,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR},
         #{fee,jdbcType=DECIMAL}, #{catalogId,jdbcType=INTEGER}, #{catalogChildId,jdbcType=INTEGER},
+        #{status,jdbcType=INTEGER},
         #{tag,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
         )
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.Fun">
     update fun
     set user_id = #{userId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      contnet = #{content,jdbcType=VARCHAR},
       authority = #{authority,jdbcType=INTEGER},
       `password` = #{password,jdbcType=VARCHAR},
       fee = #{fee,jdbcType=DECIMAL},
       catalog_id = #{catalogId,jdbcType=INTEGER},
       catalog_child_id = #{catalogChildId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+    <update id="updateByPrimaryKeyPatch" parameterType="com.pipi.common.domain.Fun">
+        UPDATE fun
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="authority!=null">authority=#{authority},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="fee!=null">fee=#{fee},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="createdAt!=null">created_at=#{createdAt},</if>
+            <if test="updatedAt!=null">updated_at=#{updatedAt},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-    select id, user_id, authority, `password`, fee, catalog_id, catalog_child_id, tag, 
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
     where id = #{id,jdbcType=BIGINT}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, authority, `password`, fee, catalog_id, catalog_child_id, tag, 
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
   </select>
 
     <select id="selectFunByAuthority" parameterType="int" resultMap="FunDTOResultMap">
-    select id, user_id, authority, `password`, fee, catalog_id, catalog_child_id, tag,
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
     where authority = #{authority,jdbcType=INTEGER}
+    </select>
+
+    <update id="updateByPrimaryKeyForDelete" parameterType="com.pipi.common.domain.Fun">
+    update fun
+    set
+      status = 2
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectFunByFunId" parameterType="Long" resultMap="FunDTOResultMap">
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
+    created_at, updated_at
+    from fun
+    where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAllFunByPage" resultMap="FunDTOResultMap">
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
+    created_at, updated_at
+    from fun
     </select>
 
 </mapper>

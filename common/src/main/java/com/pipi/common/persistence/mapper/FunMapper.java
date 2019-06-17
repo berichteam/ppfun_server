@@ -20,5 +20,13 @@ public interface FunMapper {
 
     int updateByPrimaryKey(Fun record);
 
+    int updateByPrimaryKeyPatch(Fun record);
+
     List<FunDTO> selectFunByAuthority(Integer authority);
+
+    int updateByPrimaryKeyForDelete(Integer funId);
+
+    FunDTO selectFunByFunId(Long id);
+
+    List<FunDTO> selectAllFunByPage();
 }

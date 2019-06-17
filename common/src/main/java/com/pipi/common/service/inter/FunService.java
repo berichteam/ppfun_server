@@ -1,9 +1,7 @@
 package com.pipi.common.service.inter;
 
-import com.pipi.common.domain.Fun;
 import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.vo.FunVo;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,8 +12,15 @@ import java.util.List;
  **/
 public interface FunService {
 
-    List<FunDTO> findAllByPageAndAuthority(Integer authority);
+    List<FunDTO> selectAllByPageAndAuthority(Integer authority);
 
-    void funPublish(FunVo funVo);
+    void createFun(FunVo funVo);
 
+    void editFun(FunVo funVo);
+
+    int deleteFun(Integer funId);
+
+    FunDTO selectFunByFunId(Long funId);
+
+    List<FunDTO> selectAllFunByPage();
 }
