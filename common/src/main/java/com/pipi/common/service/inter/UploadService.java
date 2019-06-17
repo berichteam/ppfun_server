@@ -26,7 +26,7 @@ public interface UploadService {
      *
      * @return
      */
-    Boolean handleFileInOSSByBlur(String originalImageName,String blurImageName);
+    String handleFileInOSSByBlur(String originalImageName,String blurImageName);
 
-    Boolean handleFileInOSSByCopy(String originalImageName,String blurImageName);
+    String handleFileInOSSByCopy(String originalImageName,String blurImageName);
 }

@@ -63,9 +63,8 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public Boolean handleFileInOSSByBlur(String originalImageName,String blurImageName) {
+    public String handleFileInOSSByBlur(String originalImageName,String blurImageName) {
         // 开启ossclient
-        boolean res =false;
         OSSClient ossClient = new OSSClient(ossProperties.getEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
         // 拷贝文件
        CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), originalImageName, ossProperties.getBucketNamePublic(),blurImageName);
@@ -84,27 +83,25 @@ public class UploadServiceImpl implements UploadService {
         try {
             json = IOUtils.readStreamAsString(processResult.getResponse().getContent(), "UTF-8");
             processResult.getResponse().getContent().close();
-            res=true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(json);
+        String finalUrl=ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
 //        // 删除文件。
 //        ossClient.deleteObject(ossProperties.getBucketNamePublic(), fileName+timeName);
         ossClient.shutdown();
-        return res;
+        return finalUrl;
     }
 
     @Override
-    public Boolean handleFileInOSSByCopy(String originalImageName,String blurImageName) {
+    public String handleFileInOSSByCopy(String originalImageName,String blurImageName) {
         // 开启ossclient
-        boolean res;
         OSSClient ossClient = new OSSClient(ossProperties.getEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
         // 拷贝文件
         CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), originalImageName, ossProperties.getBucketNamePublic(),blurImageName);
         ossClient.shutdown();
-        res =true;
-        return res;
+        String finalUrl=ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
+        return finalUrl;
     }
 
 }

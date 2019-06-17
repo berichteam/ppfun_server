@@ -107,7 +107,7 @@
     where authority = #{authority,jdbcType=INTEGER}
     </select>
 
-    <update id="updateByPrimaryKeyForDelete" parameterType="com.pipi.common.domain.Fun">
+    <update id="updateByPrimaryKeyForDelete" parameterType="Long">
     update fun
     set
       status = 2

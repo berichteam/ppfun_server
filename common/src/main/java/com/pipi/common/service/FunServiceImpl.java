@@ -1,12 +1,8 @@
 package com.pipi.common.service;
 
-import com.pipi.common.domain.Attachment;
-import com.pipi.common.domain.Fun;
-import com.pipi.common.domain.FunImages;
+import com.pipi.common.domain.*;
 import com.pipi.common.persistence.dto.FunDTO;
-import com.pipi.common.persistence.mapper.AttachmentMapper;
-import com.pipi.common.persistence.mapper.FunImagesMapper;
-import com.pipi.common.persistence.mapper.FunMapper;
+import com.pipi.common.persistence.mapper.*;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.service.inter.UploadService;
 import com.pipi.common.vo.FunImagesVo;
@@ -36,6 +32,12 @@ public class FunServiceImpl implements FunService {
     private AttachmentMapper attachmentMapper;
     @Autowired
     private UploadService uploadService;
+    @Autowired
+    private FunStarMapper funStarMapper;
+    @Autowired
+    private FunViewMapper funViewMapper;
+    @Autowired
+    private FunGiftMapper funGiftMapper;
 
 
     @Override
@@ -76,12 +78,14 @@ public class FunServiceImpl implements FunService {
             funImages.setAttachmentId(attachment.getId());
             funImages.setBlur(funImagesVo.getBlur());
             funImages.setDescription(funImagesVo.getDesc());
-            funImages.setImageUrl(originalImageName);
+
             if (funImagesVo.getBlur() == 1) {
                 //将文件复制到公告bucket中
-                uploadService.handleFileInOSSByBlur(originalImageName, blurImageName);
+               String finalUrl= uploadService.handleFileInOSSByBlur(originalImageName, blurImageName);
+                funImages.setImageUrl(finalUrl);
             } else {
-                uploadService.handleFileInOSSByCopy(originalImageName, blurImageName);
+                String finalUrl= uploadService.handleFileInOSSByCopy(originalImageName, blurImageName);
+                funImages.setImageUrl(finalUrl);
             }
             funImagesMapper.insert(funImages);
         }
@@ -128,7 +132,7 @@ public class FunServiceImpl implements FunService {
     }
 
     @Override
-    public int deleteFun(Integer funId) {
+    public int deleteFun(Long funId) {
         return funMapper.updateByPrimaryKeyForDelete(funId);
     }
 
@@ -140,5 +144,20 @@ public class FunServiceImpl implements FunService {
     @Override
     public List<FunDTO> selectAllFunByPage() {
         return funMapper.selectAllFunByPage();
+    }
+
+    @Override
+    public int funStar(FunStar funStar) {
+        return funStarMapper.insert(funStar);
+    }
+
+    @Override
+    public int funView(FunView funView) {
+        return funViewMapper.insert(funView);
+    }
+
+    @Override
+    public int funGift(FunGift funGift) {
+        return funGiftMapper.insert(funGift);
     }
 }

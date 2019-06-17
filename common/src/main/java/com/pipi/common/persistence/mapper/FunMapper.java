@@ -24,7 +24,7 @@ public interface FunMapper {
 
     List<FunDTO> selectFunByAuthority(Integer authority);
 
-    int updateByPrimaryKeyForDelete(Integer funId);
+    int updateByPrimaryKeyForDelete(Long funId);
 
     FunDTO selectFunByFunId(Long id);
 

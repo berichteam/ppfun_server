@@ -2,6 +2,8 @@ package com.pipi.ums.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pipi.common.domain.FunGift;
+import com.pipi.common.domain.FunStar;
 import com.pipi.common.domain.Result;
 import com.pipi.common.domain.Users;
 import com.pipi.common.persistence.dto.FunDTO;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,8 +41,8 @@ public class FunController {
      */
     @PostMapping
     public Result createFun(@RequestBody FunVo funVo, HttpServletRequest request) {
-        Users user = (Users) request.getAttribute("user");
-        funVo.setUserId(user.getId());
+//        Users user = (Users) request.getAttribute("user");
+//        funVo.setUserId(user.getId());
         funService.createFun(funVo);
         return Result.success(funVo);
     }
@@ -48,6 +51,7 @@ public class FunController {
      * 编辑接口
      *
      * @param funVo
+     *
      * @param request
      * @return
      */
@@ -66,7 +70,7 @@ public class FunController {
      */
     @DeleteMapping(value = {"/id"})
     public Result deleteFun(@PathVariable String id, @RequestBody FunVo funVo, HttpServletRequest request) {
-        funService.editFun(funVo);
+        funService.deleteFun(Long.parseLong(id));
         return Result.success(funVo);
     }
 
@@ -96,6 +100,27 @@ public class FunController {
             return Result.success(pageInfo);
         }
 
+    }
+
+    @PostMapping(value = "/{id}/star")
+    public Result funStar(@PathVariable String id, HttpServletRequest request) {
+//        Users user = (Users) request.getAttribute("user");
+        FunStar funStar =new FunStar();
+        funStar.setFunId(Long.parseLong(id));
+//        funStar.setUserId(user.getId());
+        funStar.setCreatedAt(new Date());
+        funService.funStar(funStar);
+        return Result.success(funStar);
+    }
+
+    @PostMapping(value = "/{id}/like")
+    public Result funLike(@PathVariable String id,@RequestBody FunGift funGift, HttpServletRequest request) {
+//        Users user = (Users) request.getAttribute("user");
+        funGift.setFunId(Long.parseLong(id));
+//        funStar.setUserId(user.getId());
+        funGift.setCreatedAt(new Date());
+        funService.funGift(funGift);
+        return Result.success(funGift);
     }
 
 }

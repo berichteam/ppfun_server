@@ -82,58 +82,16 @@
         <!--<table tableName="attachment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
         <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
-        <!--<table tableName="creditor" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--<table tableName="fun_star" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
-        <!--<table tableName="lendparticulars" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--<table tableName="fun_view" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
-        <!--<table tableName="lendproduct" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--<table tableName="fun_gift" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
-        <!--<table tableName="lendproductconfig" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="repayplan" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="scatterinvest" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="status" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="transact" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="transferproject" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="transferstatus" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="undertakeinfo" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="userinfo" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--</table>-->
-        <table tableName="log_req_cur" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
+
 
 
 

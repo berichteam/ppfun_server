@@ -1,14 +1,13 @@
 package com.pipi.common.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
 * Created by Mybatis Generator 2019/06/12
@@ -41,7 +40,7 @@ public class Fun implements Serializable {
     private String tag;
 
     private Date createdAt;
-
+    @JsonIgnore
     private Date updatedAt;
 
     private static final long serialVersionUID = 1L;

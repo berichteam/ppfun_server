@@ -1,5 +1,8 @@
 package com.pipi.common.service.inter;
 
+import com.pipi.common.domain.FunGift;
+import com.pipi.common.domain.FunStar;
+import com.pipi.common.domain.FunView;
 import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.vo.FunVo;
 
@@ -18,9 +21,15 @@ public interface FunService {
 
     void editFun(FunVo funVo);
 
-    int deleteFun(Integer funId);
+    int deleteFun(Long funId);
 
     FunDTO selectFunByFunId(Long funId);
 
     List<FunDTO> selectAllFunByPage();
+
+    int funStar(FunStar funStar);
+
+    int funView(FunView funView);
+
+    int funGift(FunGift funGift);
 }

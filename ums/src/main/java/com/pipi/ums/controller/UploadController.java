@@ -1,10 +1,8 @@
 package com.pipi.ums.controller;
 
 import com.pipi.common.domain.Attachment;
-import com.pipi.common.domain.FunImages;
 import com.pipi.common.domain.Result;
 import com.pipi.common.service.inter.AttachmentService;
-import com.pipi.common.service.inter.FunImagesService;
 import com.pipi.common.service.inter.UploadService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.UUID;
 
 import static com.pipi.common.enums.ResultCode.PARAM_IS_BLANK;

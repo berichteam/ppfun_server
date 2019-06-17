@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.FunViewMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.FunView" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="fun_id" property="funId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from fun_view
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pipi.common.domain.FunView" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fun_view (fun_id, user_id, created_at
+      )
+    values (#{funId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.FunView" >
+    update fun_view
+    set fun_id = #{funId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, fun_id, user_id, created_at
+    from fun_view
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, fun_id, user_id, created_at
+    from fun_view
+  </select>
+</mapper>
