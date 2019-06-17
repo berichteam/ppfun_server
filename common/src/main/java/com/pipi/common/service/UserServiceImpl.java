@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserSocial updateBySocial(Users user, WxMaUserInfo userInfo, SocialType socialType) {
-        UserSocial userSocial = userSocialRepository.findByUsersAndSocialType(user, socialType);
+        UserSocial userSocial = userSocialRepository.findByUserAndSocialType(user, socialType);
         userSocial.setNickName(userInfo.getNickName());
         userSocial.setAvatarUrl(userInfo.getAvatarUrl());
         userSocial.setCity(userInfo.getCity());
@@ -139,6 +139,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserSocial findByUser(Users user, SocialType socialType) {
-        return userSocialRepository.findByUsersAndSocialType(user, socialType);
+        return userSocialRepository.findByUserAndSocialType(user, socialType);
     }
 }

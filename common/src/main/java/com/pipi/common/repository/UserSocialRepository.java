@@ -26,6 +26,6 @@ public interface UserSocialRepository extends JpaRepository<UserSocial, Long> {
      * @param socialType
      * @return
      */
-    UserSocial findByUsersAndSocialType(Users user, SocialType socialType);
+    UserSocial findByUserAndSocialType(Users user, SocialType socialType);
 
 }
