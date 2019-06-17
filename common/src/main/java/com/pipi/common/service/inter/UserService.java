@@ -1,5 +1,7 @@
 package com.pipi.common.service.inter;
 
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.pipi.common.domain.UserSocial;
 import com.pipi.common.domain.Users;
 import com.pipi.common.enums.SocialType;
 import org.springframework.data.domain.Page;
@@ -25,7 +27,7 @@ public interface UserService {
      * @param socialType
      * @return
      */
-    Users registerBySocial(String bindInfo, SocialType socialType);
+    Users registerBySocial(String bindInfo, SocialType socialType, String sessionKey);
 
     /**
      * 通过社交登录
@@ -33,7 +35,7 @@ public interface UserService {
      * @param socialType
      * @return
      */
-    Users loginBySocial(String bindInfo, SocialType socialType);
+    Users loginBySocial(String bindInfo, SocialType socialType, String sessionKey);
 
     /**
      * 用户登陆
@@ -80,5 +82,21 @@ public interface UserService {
      * @return
      */
     Users registerByPhoneAndName(String phone, String name, String password);
+
+    /**
+     * 通过微信用户信息来更新用户
+     * @param user
+     * @param userInfo
+     * @return
+     */
+    UserSocial updateBySocial(Users user, WxMaUserInfo userInfo, SocialType socialType);
+
+    /**
+     * 通过用户和社交来查找
+     * @param user
+     * @param socialType
+     * @return
+     */
+    UserSocial findByUser(Users user, SocialType socialType);
 
 }

@@ -1,8 +1,11 @@
 package com.pipi.common.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.pipi.common.domain.UserSocial;
 import com.pipi.common.domain.Users;
 import com.pipi.common.enums.SocialType;
 import com.pipi.common.repository.UserRepository;
+import com.pipi.common.repository.UserSocialRepository;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
 import lombok.extern.apachecommons.CommonsLog;
@@ -24,6 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserSocialRepository userSocialRepository;
 
     @Override
     public Users register(String phone, String password) {
@@ -37,17 +42,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users registerBySocial(String bindInfo, SocialType socialType) {
+    public Users registerBySocial(String bindInfo, SocialType socialType, String sessionKey) {
         String name = "ppl" + System.currentTimeMillis();
         String password = PasswordEncryption.BCRYPT.encrypt(String.valueOf(System.currentTimeMillis()));
-        Users user = new Users(name, password, socialType, bindInfo);
-        return userRepository.save(user);
+        Users user = new Users(name, password);
+        user = userRepository.save(user);
+        UserSocial userSocial = new UserSocial(user, bindInfo, sessionKey, socialType);
+        userSocialRepository.save(userSocial);
+        return user;
     }
 
     @Override
-    public Users loginBySocial(String bindInfo, SocialType socialType) {
-        Users user = userRepository.findByBindInfoAndSocialType(bindInfo, socialType);
-        return user;
+    public Users loginBySocial(String bindInfo, SocialType socialType, String sessionKey) {
+        UserSocial userSocial = userSocialRepository.findBySocialTypeAndOpenId(socialType, bindInfo);
+        if (userSocial != null) {
+            userSocial.setSessionKey(sessionKey);
+            userSocialRepository.save(userSocial);
+            return userSocial.getUser();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -107,5 +121,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users findByName(String name) {
         return userRepository.findByUserName(name);
+    }
+
+    @Override
+    public UserSocial updateBySocial(Users user, WxMaUserInfo userInfo, SocialType socialType) {
+        UserSocial userSocial = userSocialRepository.findByUsersAndSocialType(user, socialType);
+        userSocial.setNickName(userInfo.getNickName());
+        userSocial.setAvatarUrl(userInfo.getAvatarUrl());
+        userSocial.setCity(userInfo.getCity());
+        userSocial.setProvince(userInfo.getProvince());
+        userSocial.setCountry(userInfo.getCountry());
+        userSocial.setGender(userInfo.getGender());
+        userSocial.setOpenId(userInfo.getOpenId());
+        userSocial.setUnionId(userInfo.getUnionId());
+        return userSocialRepository.save(userSocial);
+    }
+
+    @Override
+    public UserSocial findByUser(Users user, SocialType socialType) {
+        return userSocialRepository.findByUsersAndSocialType(user, socialType);
     }
 }

@@ -27,12 +27,4 @@ public interface UserRepository extends JpaRepository<Users, Long> {
      */
     Users findByPhone(String phone);
 
-    /**
-     * 通过社交和绑定信息找到用户
-     * @param bindInfo
-     * @param socialType
-     * @return
-     */
-    Users findByBindInfoAndSocialType(String bindInfo, SocialType socialType);
-
 }

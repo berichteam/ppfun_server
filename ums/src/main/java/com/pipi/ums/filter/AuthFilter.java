@@ -21,7 +21,7 @@ import java.util.Map;
  * @desc
  **/
 @Order(1)
-@WebFilter(filterName = "authFilter", urlPatterns = {"/fun/*", "/upload/*"})
+@WebFilter(filterName = "authFilter", urlPatterns = {"/fun/*", "/upload/*", "/user/social"})
 @CommonsLog
 public class AuthFilter implements Filter {
 

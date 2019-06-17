@@ -1,6 +1,5 @@
 package com.pipi.common.domain;
 
-import com.pipi.common.enums.SocialType;
 import com.pipi.common.enums.UserType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author lazyb
@@ -42,9 +42,6 @@ public class Users {
     @Column(length = 20)
     private String phone;
 
-    @Column(length = 100, name = "bind_info")
-    private String bindInfo;
-
     @Column(nullable = false, updatable = false, name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -54,12 +51,9 @@ public class Users {
     @LastModifiedDate
     private Date updatedAt;
 
-    @Column(length = 1, name = "social_type")
-    @Enumerated(EnumType.ORDINAL)
-    private SocialType socialType;
-
-    @Column(length = 200)
-    private String avatar;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Set<UserSocial> userSocials;
 
     public Users(String userName, String phone, String password) {
         this.userName = userName;
@@ -68,12 +62,10 @@ public class Users {
         this.userType = UserType.NORMAL;
     }
 
-    public Users(String userName, String password, SocialType socialType, String bindInfo) {
+    public Users(String userName, String password) {
         this.userName = userName;
         this.password = password;
         this.userType = UserType.NORMAL;
-        this.socialType = socialType;
-        this.bindInfo = bindInfo;
     }
 
 }

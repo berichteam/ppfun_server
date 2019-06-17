@@ -2,8 +2,10 @@ package com.pipi.ums.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.pipi.common.domain.CheckMsg;
 import com.pipi.common.domain.Result;
+import com.pipi.common.domain.UserSocial;
 import com.pipi.common.domain.Users;
 import com.pipi.common.enums.BizType;
 import com.pipi.common.enums.ResultCode;
@@ -15,10 +17,9 @@ import com.pipi.ums.wxserver.WxMaConfiguration;
 import lombok.extern.apachecommons.CommonsLog;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,9 +108,9 @@ public class UserController {
             log.info("session_key: " + session.getSessionKey());
             log.info("open_id: " + session.getOpenid());
             // 判断用户是否存在，不存在即注册，存在即返回token
-            Users user = userService.loginBySocial(session.getOpenid(), SocialType.WECHAT);
+            Users user = userService.loginBySocial(session.getOpenid(), SocialType.WECHAT, session.getSessionKey());
             if (user == null) {
-                user = userService.registerBySocial(session.getOpenid(), SocialType.WECHAT);
+                user = userService.registerBySocial(session.getOpenid(), SocialType.WECHAT, session.getSessionKey());
             }
             String token = "";
             try {
@@ -123,7 +124,7 @@ public class UserController {
             return Result.success(ResultCode.SUCCESS, res);
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
-            return Result.success(ResultCode.FAILURE, e.getMessage());
+            return Result.failure(ResultCode.FAILURE, e.getMessage());
         }
     }
 
@@ -141,6 +142,39 @@ public class UserController {
             return Result.success(ResultCode.SUCCESS);
         } else {
             return Result.failure(ResultCode.FAILURE);
+        }
+    }
+
+    /**
+     * 更新用户社交信息
+     * @param socialType
+     * @param encryptedData 加密数据
+     * @param iv 初始向量
+     * @return
+     */
+    @PostMapping("/user/social")
+    public Result socialRefresh(@RequestParam(name = "social_type") String socialType,
+                                @RequestParam String encryptedData, @RequestParam String iv, HttpServletRequest request) {
+        if (!socialType.equals("wechat")) {
+            return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
+        }
+        Users user = (Users)request.getAttribute("user");
+        if (user == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
+        if (userSocial == null || userSocial.getSessionKey() == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        WxMaService wxService = WxMaConfiguration.getMaService();
+        try {
+            WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(userSocial.getSessionKey(), encryptedData, iv);
+            log.info("userInfo: " + userInfo);
+            userService.updateBySocial(user, userInfo, SocialType.WECHAT);
+            return Result.success(ResultCode.SUCCESS);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Result.failure(ResultCode.FAILURE, e.getMessage());
         }
     }
 
