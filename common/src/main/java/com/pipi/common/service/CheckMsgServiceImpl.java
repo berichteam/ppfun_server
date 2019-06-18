@@ -87,8 +87,8 @@ public class CheckMsgServiceImpl implements CheckMsgService {
             // 然后新增一条验证码
             String code = String.valueOf(Double.valueOf((Math.random() * 9 + 1) * 100000).intValue());
             CheckMsg cm = new CheckMsg(phone, code, bizType);
-            int ckId = checkMsgMapper.insert(cm);
-            res = checkMsgMapper.selectByPrimaryKey(Long.valueOf(ckId));
+            checkMsgMapper.insert(cm);
+            res = checkMsgMapper.selectByPrimaryKey(cm.getId());
         }
         return res;
     }

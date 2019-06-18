@@ -37,8 +37,9 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         String name = "ppl" + System.currentTimeMillis();
-        int userId = usersMapper.insert(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
-        return usersMapper.selectByPrimaryKey(Long.valueOf(userId));
+        user = new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
+        usersMapper.insert(user);
+        return usersMapper.selectByPrimaryKey(user.getId());
     }
 
     @Override
@@ -46,7 +47,8 @@ public class UserServiceImpl implements UserService {
         String name = "ppl" + System.currentTimeMillis();
         String password = PasswordEncryption.BCRYPT.encrypt(String.valueOf(System.currentTimeMillis()));
         Users user = new Users(name, password);
-        user = usersMapper.selectByPrimaryKey(Long.valueOf(usersMapper.insert(user)));
+        usersMapper.insert(user);
+        user = usersMapper.selectByPrimaryKey(user.getId());
         UserSocial userSocial = new UserSocial(user.getId(), bindInfo, sessionKey, socialType);
         userSocialMapper.insert(userSocial);
         return user;
@@ -101,8 +103,9 @@ public class UserServiceImpl implements UserService {
             log.error("name is exist");
             return null;
         }
-        int userId = usersMapper.insert(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
-        return usersMapper.selectByPrimaryKey(Long.valueOf(userId));
+        Users user = new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
+        usersMapper.insert(user);
+        return usersMapper.selectByPrimaryKey(user.getId());
     }
 
     @Override
