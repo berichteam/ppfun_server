@@ -100,4 +100,12 @@ public interface UserService {
      */
     UserSocial findByUser(Users user, SocialType socialType);
 
+    /**
+     * 删除社交信息
+     * @param user
+     * @param socialType
+     * @return
+     */
+    int delBySocial(Users user, SocialType socialType);
+
 }

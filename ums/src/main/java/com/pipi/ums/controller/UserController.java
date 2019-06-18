@@ -152,8 +152,8 @@ public class UserController {
      * @param iv 初始向量
      * @return
      */
-    @PostMapping("/user/social")
-    public Result socialRefresh(@RequestParam String socialType,
+    @PostMapping("/user/social/{socialType}")
+    public Result socialRefresh(@PathVariable String socialType,
                                 @RequestParam String encryptedData, @RequestParam String iv, HttpServletRequest request) {
         if (!socialType.equals("wechat")) {
             return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
@@ -176,6 +176,29 @@ public class UserController {
             log.error(e.getMessage(), e);
             return Result.failure(ResultCode.FAILURE, e.getMessage());
         }
+    }
+
+    /**
+     * 删除用户社交信息
+     * @param socialType
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/user/social/{socialType}")
+    public Result socialDelete(@PathVariable String socialType, HttpServletRequest request) {
+        if (!socialType.equals("wechat")) {
+            return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
+        }
+        Users user = (Users)request.getAttribute("user");
+        if (user == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
+        if (userSocial == null || userSocial.getSessionKey() == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        userService.delBySocial(user, SocialType.WECHAT);
+        return Result.success(ResultCode.SUCCESS);
     }
 
 }

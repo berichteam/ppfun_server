@@ -143,4 +143,10 @@ public class UserServiceImpl implements UserService {
     public UserSocial findByUser(Users user, SocialType socialType) {
         return userSocialMapper.findByUserAndSocialType(user.getId(), socialType.ordinal());
     }
+
+    @Override
+    public int delBySocial(Users user, SocialType socialType) {
+        UserSocial userSocial = userSocialMapper.findByUserAndSocialType(user.getId(), socialType.ordinal());
+        return userSocialMapper.deleteByPrimaryKey(userSocial.getId());
+    }
 }
