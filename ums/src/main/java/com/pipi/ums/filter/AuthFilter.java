@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,20 @@ public class AuthFilter implements Filter {
     @Autowired
     private UserService userService;
 
+
+    /* 这里设置不被拦截的请求路径 */
+    private static final List<String> unFilterUrlList = Arrays.asList("/article");
+
+    /* 判断请求路径是否为不拦截的请求路径 */
+    private boolean isFilter(String url) {
+        for (String s : unFilterUrlList) {
+            if (url.indexOf(s) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -38,7 +54,13 @@ public class AuthFilter implements Filter {
         log.info("AuthFilter doFilter start.");
         boolean flag = false;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        log.debug("requestURL======================================" + request.getRequestURL().toString());
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+       //排除不需要过滤的
+        if (isFilter(request.getRequestURL().toString()) && request.getMethod().equals("GET")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
         String token = request.getHeader("AUTH-TOKEN");
         log.info("token: " + token);
         if (token == null) {
