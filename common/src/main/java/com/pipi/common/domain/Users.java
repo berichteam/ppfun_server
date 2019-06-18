@@ -56,7 +56,7 @@ public class Users {
     private Set<UserSocial> userSocials;
 
     public Users(String userName, String phone, String password) {
-        this.userName = userName;
+        this.userName = userName; 
         this.phone = phone;
         this.password = password;
         this.userType = UserType.NORMAL;
