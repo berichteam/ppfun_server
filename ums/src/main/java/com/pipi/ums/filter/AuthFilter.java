@@ -21,7 +21,7 @@ import java.util.Map;
  * @desc
  **/
 @Order(1)
-@WebFilter(filterName = "authFilter", urlPatterns = {"/fun/**", "/upload/**"})
+@WebFilter(filterName = "authFilter", urlPatterns = {"/fun/*", "/upload/*", "/user/social"})
 @CommonsLog
 public class AuthFilter implements Filter {
 
@@ -42,7 +42,7 @@ public class AuthFilter implements Filter {
         String token = request.getHeader("AUTH-TOKEN");
         log.info("token: " + token);
         if (token == null) {
-            response.setStatus(403);
+            response.sendRedirect("/auth_error");
             return;
         }
         try {
@@ -50,6 +50,7 @@ public class AuthFilter implements Filter {
             String name = map.get("username").asString();
             Users user = userService.findByName(name);
             if (user != null) {
+                servletRequest.setAttribute("user", user);
                 flag = true;
             }
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class AuthFilter implements Filter {
             log.info("auth success");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            response.setStatus(403);
+            response.sendRedirect("/auth_error");
             return;
         }
     }
