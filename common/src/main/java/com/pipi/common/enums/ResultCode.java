@@ -8,9 +8,9 @@ import java.util.List;
 public enum ResultCode {
 
     /* 成功状态码 */
-    SUCCESS(1, "成功"),
+    SUCCESS(10000, "成功"),
     /* 失败状态码 */
-    FAILURE(0, "失败"),
+    FAILURE(00000, "失败"),
 
     /* 参数错误：10001-19999 */
     PARAM_IS_INVALID(10001, "参数无效"),
