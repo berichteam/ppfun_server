@@ -5,6 +5,7 @@ import com.pipi.common.persistence.mapper.UsersMapper;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.List;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-
+    @Autowired
     private UsersMapper userMapper;
 
     @Override
