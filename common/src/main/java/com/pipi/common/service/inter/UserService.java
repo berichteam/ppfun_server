@@ -108,4 +108,12 @@ public interface UserService {
      */
     int delBySocial(Users user, SocialType socialType);
 
+    /**
+     * 更新用户手机号
+     * @param user
+     * @param phone
+     * @return
+     */
+    int updatePhoneBySocial(Users user, String phone);
+
 }

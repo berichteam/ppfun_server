@@ -152,4 +152,10 @@ public class UserServiceImpl implements UserService {
         UserSocial userSocial = userSocialMapper.findByUserAndSocialType(user.getId(), socialType.ordinal());
         return userSocialMapper.deleteByPrimaryKey(userSocial.getId());
     }
+
+    @Override
+    public int updatePhoneBySocial(Users user, String phone) {
+        user.setPhone(phone);
+        return usersMapper.updateByPrimaryKey(user);
+    }
 }

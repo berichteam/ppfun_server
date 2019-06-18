@@ -2,6 +2,7 @@ package com.pipi.ums.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.pipi.common.domain.CheckMsg;
 import com.pipi.common.domain.Result;
@@ -199,6 +200,38 @@ public class UserController {
         }
         userService.delBySocial(user, SocialType.WECHAT);
         return Result.success(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 根据社交信息更新手机号
+     * @param socialType
+     * @return
+     */
+    @PostMapping("/user/phone/{socialType}")
+    public Result refreshPhone(@PathVariable String socialType,
+                               @RequestParam String encryptedData, @RequestParam String iv,
+                               HttpServletRequest request) {
+        if (!socialType.equals("wechat")) {
+            return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
+        }
+        Users user = (Users)request.getAttribute("user");
+        if (user == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
+        if (userSocial == null || userSocial.getSessionKey() == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        WxMaService wxService = WxMaConfiguration.getMaService();
+        try {
+            WxMaPhoneNumberInfo phoneNumberInfo = wxService.getUserService().getPhoneNoInfo(userSocial.getSessionKey(), encryptedData, iv);
+            log.info("phoneInfo: " + phoneNumberInfo);
+            userService.updatePhoneBySocial(user, phoneNumberInfo.getPhoneNumber());
+            return Result.success(ResultCode.SUCCESS);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Result.failure(ResultCode.FAILURE, e.getMessage());
+        }
     }
 
 }
