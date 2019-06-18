@@ -51,7 +51,7 @@ public class Users {
     @LastModifiedDate
     private Date updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Set<UserSocial> userSocials;
 
