@@ -1,5 +1,6 @@
 package com.pipi.cms.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.pipi.common.domain.Result;
 import com.pipi.common.domain.Users;
 import com.pipi.common.service.inter.UserService;
@@ -27,7 +28,7 @@ public class UserController {
 
     @GetMapping("/users/list")
     public Result getUserList(int page, int rows) {
-        List<Users> pu = userService.findAllByPage(page, rows);
+        PageInfo<Users> pu = userService.findAllByPage(page, rows);
         return Result.success(pu);
     }
 

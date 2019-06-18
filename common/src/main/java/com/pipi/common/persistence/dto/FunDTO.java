@@ -14,9 +14,6 @@ public class FunDTO extends Fun implements Serializable {
     private int giftCount;
     private int starCount;
 
-    private String smallUrl;
-    private String bigUrl;
-
     private List<FunImages> funImages;
 
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pipi.common.util.ImagesUrlHandleUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,10 +34,17 @@ public class FunImages implements Serializable {
     @JsonIgnore  //返回时排除掉这个字段
     private Date updatedAt;
 
+
     private String bigUrl;
+    @JsonSerialize(using = ImagesUrlHandleUtil.class)
+    public String getBigUrl() {
+        return this.getImageUrl();
+    }
     private String smallUrl;
-
-
+    @JsonSerialize(using = ImagesUrlHandleUtil.class)
+    public String getSmallUrl() {
+        return this.getImageUrl();
+    }
 
     private static final long serialVersionUID = 1L;
 

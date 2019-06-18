@@ -11,8 +11,6 @@
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
-        <result column="big_url" property="bigUrl" jdbcType="VARCHAR"/>
-        <result column="small_url" property="smallUrl" jdbcType="VARCHAR"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from fun_images
@@ -53,9 +51,7 @@
   </select>
 
     <select id="selectAllByFunId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, fun_id,attachment_id, image_url,authority, blur, description, created_at, updated_at,
-    CONCAT(image_url,"?x-oss-process=image/resize,m_fixed,h_400,w_400") as big_url,
-    CONCAT(image_url,"?x-oss-process=image/resize,m_fixed,h_100,w_100") as small_url
+    select id, fun_id,attachment_id, image_url,authority, blur, description, created_at, updated_at
     from fun_images
     where fun_id=#{funId,jdbcType=BIGINT}
   </select>

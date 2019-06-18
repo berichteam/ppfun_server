@@ -1,6 +1,7 @@
 package com.pipi.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,7 +18,7 @@ import java.util.Date;
 @ToString
 public class Fun implements Serializable {
     private Long id;
-
+    @JsonProperty("authorId")
     private Long userId;
 
     private String title;

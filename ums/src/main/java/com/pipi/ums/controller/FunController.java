@@ -107,8 +107,8 @@ public class FunController {
      */
     @GetMapping(value = "/mine")
     public Result mineFun(@RequestParam(required = false) String id, @RequestParam(required = false) String q, HttpServletRequest request) {
-        Long userId = 1L;
-        List<FunDTO> list = funService.selectMineAllFunByPage(userId);
+        Users user = (Users) request.getAttribute("user");
+        List<FunDTO> list = funService.selectMineAllFunByPage(user.getId());
         PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
         return Result.success(pageInfo);
     }
@@ -116,10 +116,10 @@ public class FunController {
 
     @PostMapping(value = "/{id}/star")
     public Result funStar(@PathVariable String id, HttpServletRequest request) {
-//        Users user = (Users) request.getAttribute("user");
+        Users user = (Users) request.getAttribute("user");
         FunStar funStar = new FunStar();
         funStar.setFunId(Long.parseLong(id));
-//        funStar.setUserId(user.getId());
+        funStar.setUserId(user.getId());
         funStar.setCreatedAt(new Date());
         funService.funStar(funStar);
         return Result.success(funStar);
