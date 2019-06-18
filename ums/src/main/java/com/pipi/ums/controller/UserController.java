@@ -64,7 +64,7 @@ public class UserController {
             log.error("用户名或手机号错误");
             return Result.failure(ResultCode.USER_NAME_PHONE_REPEAT);
         }
-        return Result.success(ResultCode.SUCCESS, user);
+        return Result.success(ResultCode.SUCCESS);
     }
 
     /**
