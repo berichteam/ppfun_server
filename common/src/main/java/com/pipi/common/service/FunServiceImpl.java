@@ -160,4 +160,9 @@ public class FunServiceImpl implements FunService {
     public int funGift(FunGift funGift) {
         return funGiftMapper.insert(funGift);
     }
+
+    @Override
+    public List<FunDTO> selectMineAllFunByPage(Long userId) {
+        return funMapper.selectMineAllFunByPage(userId);
+    }
 }

@@ -48,7 +48,6 @@ public class FunController {
      * 编辑接口
      *
      * @param funVo
-     *
      * @param request
      * @return
      */
@@ -99,10 +98,26 @@ public class FunController {
 
     }
 
+    /**
+     * 查询接口
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @GetMapping(value = "/mine")
+    public Result mineFun(@RequestParam(required = false) String id, @RequestParam(required = false) String q, HttpServletRequest request) {
+        Long userId = 1L;
+        List<FunDTO> list = funService.selectMineAllFunByPage(userId);
+        PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
+        return Result.success(pageInfo);
+    }
+
+
     @PostMapping(value = "/{id}/star")
     public Result funStar(@PathVariable String id, HttpServletRequest request) {
 //        Users user = (Users) request.getAttribute("user");
-        FunStar funStar =new FunStar();
+        FunStar funStar = new FunStar();
         funStar.setFunId(Long.parseLong(id));
 //        funStar.setUserId(user.getId());
         funStar.setCreatedAt(new Date());
@@ -111,7 +126,7 @@ public class FunController {
     }
 
     @PostMapping(value = "/{id}/like")
-    public Result funLike(@PathVariable String id,@RequestBody FunGift funGift, HttpServletRequest request) {
+    public Result funLike(@PathVariable String id, @RequestBody FunGift funGift, HttpServletRequest request) {
 //        Users user = (Users) request.getAttribute("user");
         funGift.setFunId(Long.parseLong(id));
 //        funStar.setUserId(user.getId());
@@ -123,7 +138,7 @@ public class FunController {
     @GetMapping(value = "/{id}/viewed")
     public Result funView(@PathVariable String id, HttpServletRequest request) {
 //        Users user = (Users) request.getAttribute("user");
-        FunView funView =new FunView();
+        FunView funView = new FunView();
         funView.setFunId(Long.parseLong(id));
 //        funView.setUserId(user.getId());
         funService.funView(funView);

@@ -1,6 +1,5 @@
 package com.pipi.common.persistence.mapper;
 
-import com.github.pagehelper.Page;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.persistence.dto.FunDTO;
 
@@ -29,4 +28,6 @@ public interface FunMapper {
     FunDTO selectFunByFunId(Long id);
 
     List<FunDTO> selectAllFunByPage();
+
+    List<FunDTO> selectMineAllFunByPage(Long userId);
 }

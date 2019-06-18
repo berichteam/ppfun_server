@@ -32,4 +32,7 @@ public interface FunService {
     int funView(FunView funView);
 
     int funGift(FunGift funGift);
+
+    List<FunDTO> selectMineAllFunByPage(Long userId);
+
 }

@@ -135,4 +135,11 @@
     from fun
     </select>
 
+    <select id="selectMineAllFunByPage" resultMap="FunDTOResultMap" parameterType="Long">
+    select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
+    created_at, updated_at
+    from fun
+    where user_id =#{userId,jdbcType=BIGINT}
+    </select>
+
 </mapper>

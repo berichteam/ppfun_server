@@ -1,6 +1,7 @@
 package com.pipi.cms.controller;
 
 import com.pipi.common.domain.Admin;
+import com.pipi.common.service.inter.AdminService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
