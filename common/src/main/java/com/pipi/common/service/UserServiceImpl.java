@@ -1,13 +1,16 @@
 package com.pipi.common.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.github.pagehelper.PageInfo;
+import com.pipi.common.domain.UserSocial;
 import com.pipi.common.domain.Users;
+import com.pipi.common.enums.SocialType;
+import com.pipi.common.persistence.mapper.UserSocialMapper;
 import com.pipi.common.persistence.mapper.UsersMapper;
 import com.pipi.common.service.inter.UserService;
 import com.pipi.common.util.PasswordEncryption;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,25 +25,48 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UsersMapper userMapper;
+    private UsersMapper usersMapper;
+    @Autowired
+    private UserSocialMapper userSocialMapper;
 
     @Override
     public Users register(String phone, String password) {
-        Users user = userMapper.selectByPhone(phone);
+        Users user = usersMapper.findByPhone(phone);
         if (user != null) {
             log.error("phone is exist");
             return null;
         }
         String name = "ppl" + System.currentTimeMillis();
-        Users users =new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
-        int userId =userMapper.insert(users);
-        users.setId((Long.valueOf(userId+"")));
-        return users;
+        int userId = usersMapper.insert(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+        return usersMapper.selectByPrimaryKey(Long.valueOf(userId));
+    }
+
+    @Override
+    public Users registerBySocial(String bindInfo, SocialType socialType, String sessionKey) {
+        String name = "ppl" + System.currentTimeMillis();
+        String password = PasswordEncryption.BCRYPT.encrypt(String.valueOf(System.currentTimeMillis()));
+        Users user = new Users(name, password);
+        user = usersMapper.selectByPrimaryKey(Long.valueOf(usersMapper.insert(user)));
+        UserSocial userSocial = new UserSocial(user.getId(), bindInfo, sessionKey, socialType);
+        userSocialMapper.insert(userSocial);
+        return user;
+    }
+
+    @Override
+    public Users loginBySocial(String bindInfo, SocialType socialType, String sessionKey) {
+        UserSocial userSocial = userSocialMapper.findBySocialTypeAndOpenId(socialType.ordinal(), bindInfo);
+        if (userSocial != null) {
+            userSocial.setSessionKey(sessionKey);
+            userSocialMapper.updateByPrimaryKey(userSocial);
+            return usersMapper.selectByPrimaryKey(userSocial.getUserId());
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Users login(String phone, String password) {
-        Users user = userMapper.selectByPhone(phone);
+        Users user = usersMapper.findByPhone(phone);
         if (user == null) {
             log.error("phone is error");
             return null;
@@ -54,37 +80,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users findByPhone(String phone) {
-        return userMapper.selectByPhone(phone);
+        return usersMapper.findByPhone(phone);
     }
 
     @Override
-    public List<Users> findAllByPage(Integer page, Integer size) {
-        Pageable pageable = new PageRequest(page - 1, size);
-        return userMapper.selectAll();
+    public PageInfo<Users> findAllByPage(Integer page, Integer size) {
+        List<Users> ulist = usersMapper.selectAll();
+        return new PageInfo<>(ulist);
     }
 
     @Override
     public Users registerByPhoneAndName(String phone, String name, String password) {
-        Users pu = userMapper.selectByPhone(phone);
+        Users pu = usersMapper.findByPhone(phone);
         if (pu != null) {
             log.error("phone is exist");
             return null;
         }
-        Users nu = userMapper.selectByUserName(name);
+        Users nu = usersMapper.findByUserName(name);
         if (nu != null) {
             log.error("name is exist");
             return null;
         }
-
-        Users users =new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password));
-        int userId =userMapper.insert(users);
-        users.setId((Long.valueOf(userId+"")));
-        return users;
+        int userId = usersMapper.insert(new Users(name, phone, PasswordEncryption.BCRYPT.encrypt(password)));
+        return usersMapper.selectByPrimaryKey(Long.valueOf(userId));
     }
 
     @Override
     public Users loginByName(String name, String password) {
-        Users user = userMapper.selectByUserName(name);
+        Users user = usersMapper.findByUserName(name);
         if (user == null) {
             log.error("name is error");
             return null;
@@ -98,6 +121,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users findByName(String name) {
-        return userMapper.selectByUserName(name);
+        return usersMapper.findByUserName(name);
+    }
+
+    @Override
+    public UserSocial updateBySocial(Users user, WxMaUserInfo userInfo, SocialType socialType) {
+        UserSocial userSocial = userSocialMapper.findByUserAndSocialType(user.getId(), socialType.ordinal());
+        userSocial.setNickName(userInfo.getNickName());
+        userSocial.setAvatarUrl(userInfo.getAvatarUrl());
+        userSocial.setCity(userInfo.getCity());
+        userSocial.setProvince(userInfo.getProvince());
+        userSocial.setCountry(userInfo.getCountry());
+        userSocial.setGender(userInfo.getGender());
+        userSocial.setOpenId(userInfo.getOpenId());
+        userSocial.setUnionId(userInfo.getUnionId());
+        userSocialMapper.updateByPrimaryKey(userSocial);
+        return userSocial;
+    }
+
+    @Override
+    public UserSocial findByUser(Users user, SocialType socialType) {
+        return userSocialMapper.findByUserAndSocialType(user.getId(), socialType.ordinal());
     }
 }

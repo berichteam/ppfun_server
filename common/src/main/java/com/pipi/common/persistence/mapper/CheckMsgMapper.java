@@ -1,6 +1,8 @@
 package com.pipi.common.persistence.mapper;
 
 import com.pipi.common.domain.CheckMsg;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -16,4 +18,10 @@ public interface CheckMsgMapper {
     List<CheckMsg> selectAll();
 
     int updateByPrimaryKey(CheckMsg record);
+
+    List<CheckMsg> findAllByPhoneAndBizTypeAndCheckStatusOrderByCreatedAtDesc(@Param("phone") String phone, @Param("bizType") int bizType,
+                                                                              @Param("checkStatus") int checkStatus);
+
+    List<CheckMsg> findAllByPhoneAndBizTypeAndCodeAndCheckStatus(@Param("phone") String phone, @Param("bizType") int bizType,
+                                                  @Param("code") String code, @Param("checkStatus") int checkStatus);
 }

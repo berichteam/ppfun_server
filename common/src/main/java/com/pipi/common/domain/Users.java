@@ -2,22 +2,18 @@ package com.pipi.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import com.pipi.common.enums.UserType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 /**
-* Created by Mybatis Generator 2019/06/12
+* Created by Mybatis Generator 2019/06/18
 */
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Users implements Serializable {
     private Long id;
 
@@ -25,27 +21,15 @@ public class Users implements Serializable {
 
     private String password;
 
-    @Column(length = 6, name = "type")
-    @Enumerated(EnumType.ORDINAL)
-    private UserType userType;
+    private Short type;
 
     private String phone;
-
-    private String bindInfo;
 
     private Date createdAt;
 
     private Date updatedAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Users(String userName, String phone, String password) {
-        this.userName = userName;
-        this.phone = phone;
-        this.password = password;
-        this.userType = UserType.NORMAL;
-    }
-
 
     @Override
     public String toString() {
@@ -56,13 +40,23 @@ public class Users implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userName=").append(userName);
         sb.append(", password=").append(password);
-        sb.append(", type=").append(userType);
+        sb.append(", type=").append(type);
         sb.append(", phone=").append(phone);
-        sb.append(", bindInfo=").append(bindInfo);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Users(String userName, String phone, String password) {
+        this.userName = userName;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    public Users(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
     }
 }

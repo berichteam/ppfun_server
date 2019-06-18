@@ -2,7 +2,10 @@ package com.pipi.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.pipi.common.enums.BizType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class CheckMsg implements Serializable {
     private Long id;
 
@@ -45,5 +49,11 @@ public class CheckMsg implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public CheckMsg(String phone, String code, BizType bizType) {
+        this.phone = phone;
+        this.code = code;
+        this.bizType = Short.valueOf(String.valueOf(bizType.ordinal()));
     }
 }

@@ -44,4 +44,15 @@
     select id, phone, code, biz_type, check_status, created_at, updated_at
     from check_msg
   </select>
+
+  <select id="findAllByPhoneAndBizTypeAndCheckStatusOrderByCreatedAtDesc" resultMap="BaseResultMap">
+    select * from check_msg
+    where phone = #{phone} and biz_type = #{bizType} and check_status = #{checkStatus}
+    order by created_at desc
+  </select>
+
+  <select id="findAllByPhoneAndBizTypeAndCodeAndCheckStatus" resultMap="BaseResultMap">
+    select * from check_msg
+    where phone = #{phone} and biz_type = #{bizType} and code = #{code} and check_status = #{checkStatus}
+  </select>
 </mapper>
