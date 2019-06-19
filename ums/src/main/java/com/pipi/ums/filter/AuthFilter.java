@@ -63,7 +63,7 @@ public class AuthFilter implements Filter {
         String token = request.getHeader("X-AUTH-TOKEN");
         log.info("token: " + token);
         if (token == null) {
-            response.sendRedirect("/auth_error");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "no token");
             return;
         }
         try {
@@ -81,7 +81,7 @@ public class AuthFilter implements Filter {
             log.info("auth success");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            response.sendRedirect("/auth_error");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "auth error");
             return;
         }
     }
