@@ -40,17 +40,16 @@ public class UserController {
 
     /**
      * 用户注册
-     * @param username
-     * @param password
-     * @param confirmPassword
-     * @param smsCode
-     * @param phone
+     * @param params
      * @return
      */
     @PostMapping("/user/register")
-    public Result register(@RequestParam String username, @RequestParam String password,
-                           @RequestParam String confirmPassword,
-                           @RequestParam String smsCode, @RequestParam String phone) {
+    public Result register(@RequestBody Map<String, String> params) {
+        String username = params.get("username");
+        String password = params.get("password");
+        String confirmPassword = params.get("confirmPassword");
+        String smsCode = params.get("smsCode");
+        String phone = params.get("phone");
         if (!password.equals(confirmPassword)) {
             log.error("密码确认错误");
             return Result.failure(ResultCode.USER_CONFIRM_PASSWORD_ERROR);
@@ -69,12 +68,13 @@ public class UserController {
 
     /**
      * 用户登录，成功后返回token
-     * @param username
-     * @param password
+     * @param params
      * @return
      */
     @PostMapping("/user/login")
-    public Result login(@RequestParam String username, @RequestParam String password) {
+    public Result login(@RequestBody Map<String, String> params) {
+        String username = params.get("username");
+        String password = params.get("password");
         String token = "";
         Users user = userService.loginByName(username, password);
         if (user == null) {
@@ -94,12 +94,13 @@ public class UserController {
 
     /**
      * 社交媒体登录
-     * @param socialType
-     * @param code
+     * @param params
      * @return
      */
     @PostMapping("/user/login/social")
-    public Result loginSocial(@RequestParam String socialType, @RequestParam String code) {
+    public Result loginSocial(@RequestBody Map<String, String> params) {
+        String socialType = params.get("socialType");
+        String code = params.get("code");
         if (!socialType.equals("wechat")) {
             return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
         }
@@ -131,11 +132,12 @@ public class UserController {
 
     /**
      * 发送验证码
-     * @param phone
+     * @param params
      * @return
      */
     @PostMapping("/user/code")
-    public Result sendCode(@RequestParam String phone) {
+    public Result sendCode(@RequestBody Map<String, String> params) {
+        String phone = params.get("phone");
         CheckMsg ck = checkMsgService.addOneCode(phone, BizType.REGISTER);
         if (ck != null) {
             log.info("sms code: " + ck.getCode());
@@ -149,13 +151,15 @@ public class UserController {
     /**
      * 更新用户社交信息
      * @param socialType
-     * @param encryptedData 加密数据
-     * @param iv 初始向量
+     * @param params
      * @return
      */
-    @PostMapping("/user/social/{socialType}")
+    @PutMapping("/user/social/{socialType}")
     public Result socialRefresh(@PathVariable String socialType,
-                                @RequestParam String encryptedData, @RequestParam String iv, HttpServletRequest request) {
+                                @RequestBody Map<String, String> params,
+                                HttpServletRequest request) {
+        String encryptedData = params.get("encryptedData");
+        String iv = params.get("iv");
         if (!socialType.equals("wechat")) {
             return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
         }
@@ -204,13 +208,15 @@ public class UserController {
 
     /**
      * 根据社交信息更新手机号
-     * @param socialType
+     * @param params
      * @return
      */
-    @PostMapping("/user/phone/{socialType}")
+    @PutMapping("/user/phone/{socialType}")
     public Result refreshPhone(@PathVariable String socialType,
-                               @RequestParam String encryptedData, @RequestParam String iv,
+                               @RequestBody Map<String, String> params,
                                HttpServletRequest request) {
+        String encryptedData = params.get("encryptedData");
+        String iv = params.get("iv");
         if (!socialType.equals("wechat")) {
             return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
         }
