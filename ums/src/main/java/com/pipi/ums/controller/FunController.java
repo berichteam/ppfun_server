@@ -43,7 +43,7 @@ public class FunController {
         Users user = (Users) request.getAttribute("user");
         funVo.setUserId(user.getId());
         funService.createFun(funVo);
-        return Result.success(funVo.getId());
+        return Result.success(funVo);
     }
 
     /**
