@@ -17,7 +17,7 @@ public interface FunService {
 
     List<FunDTO> selectAllByPageAndAuthority(Integer authority);
 
-    void createFun(FunVo funVo);
+    FunVo createFun(FunVo funVo);
 
     void editFun(FunVo funVo);
 

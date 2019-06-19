@@ -49,7 +49,7 @@ public class FunServiceImpl implements FunService {
 
     @Override
     @Transactional
-    public void createFun(FunVo funVo) {
+    public FunVo createFun(FunVo funVo) {
         //持久化Fun
         Fun fun = new Fun();
         fun.setUserId(funVo.getUserId());
@@ -62,7 +62,7 @@ public class FunServiceImpl implements FunService {
         } else if (funVo.getAuthority() == 4) {
             fun.setPassword(funVo.getPassword());
         }
-        funMapper.insert(fun);
+        funVo.setId(funMapper.insert(fun));
         //持久化FunImages
         for (FunImagesVo funImagesVo : funVo.getImages()
         ) {
@@ -89,6 +89,7 @@ public class FunServiceImpl implements FunService {
             }
             funImagesMapper.insert(funImages);
         }
+        return  funVo;
     }
 
     @Override

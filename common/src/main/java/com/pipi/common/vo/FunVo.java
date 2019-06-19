@@ -14,5 +14,5 @@ public class FunVo implements Serializable {
     private int authority;
     private String password;
     private BigDecimal fee;
-
+    private Long Id;
 }

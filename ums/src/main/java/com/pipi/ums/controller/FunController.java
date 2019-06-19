@@ -40,10 +40,10 @@ public class FunController {
      */
     @PostMapping
     public Result createFun(@RequestBody FunVo funVo, HttpServletRequest request) {
-//        Users user = (Users) request.getAttribute("user");
-//        funVo.setUserId(user.getId());
+        Users user = (Users) request.getAttribute("user");
+        funVo.setUserId(user.getId());
         funService.createFun(funVo);
-        return Result.success(funVo);
+        return Result.success(funVo.getId());
     }
 
     /**

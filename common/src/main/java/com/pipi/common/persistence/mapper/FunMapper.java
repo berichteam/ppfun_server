@@ -11,7 +11,7 @@ import java.util.List;
 public interface FunMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(Fun record);
+    Long insert(Fun record);
 
     Fun selectByPrimaryKey(Long id);
 
