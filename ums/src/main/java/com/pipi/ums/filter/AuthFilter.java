@@ -60,7 +60,7 @@ public class AuthFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        String token = request.getHeader("AUTH-TOKEN");
+        String token = request.getHeader("X-AUTH-TOKEN");
         log.info("token: " + token);
         if (token == null) {
             response.sendRedirect("/auth_error");
