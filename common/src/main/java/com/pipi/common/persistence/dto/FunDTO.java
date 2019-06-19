@@ -1,5 +1,6 @@
 package com.pipi.common.persistence.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pipi.common.domain.Fun;
 import com.pipi.common.domain.FunImages;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class FunDTO extends Fun implements Serializable {
     private int giftCount;
     private int starCount;
 
+    @JsonProperty("images")
     private List<FunImages> funImages;
 
 }
