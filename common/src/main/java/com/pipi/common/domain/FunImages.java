@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pipi.common.util.ImagesUrlHandleUtil;
 import lombok.Getter;
@@ -17,17 +18,22 @@ import lombok.ToString;
 @Setter
 @ToString
 public class FunImages implements Serializable {
+
+    @JsonIgnore
     private Long id;
     @JsonIgnore  //返回时排除掉这个字段
     private Long funId;
 
+    @JsonProperty("uuid")
     private Long attachmentId;
+
+    @JsonProperty("originUrl")
     private String imageUrl;
     @JsonIgnore  //返回时排除掉这个字段
     private Integer authority;
     @JsonIgnore  //返回时排除掉这个字段
     private Integer blur;
-    @JsonIgnore  //返回时排除掉这个字段
+    @JsonProperty("desc")  //返回时排除掉这个字段
     private String description;
     @JsonIgnore  //返回时排除掉这个字段
     private Date createdAt;
@@ -45,6 +51,13 @@ public class FunImages implements Serializable {
     public String getSmallUrl() {
         return this.getImageUrl();
     }
+
+    private Integer originWidth;
+    private Integer originHeight;
+
+
+
+
 
     private static final long serialVersionUID = 1L;
 
