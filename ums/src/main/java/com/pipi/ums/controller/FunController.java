@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,27 +77,28 @@ public class FunController {
      * 查询接口
      *
      * @param id
-     * @param request
+     * @param response
      * @return
      */
     @GetMapping
-    public Result queryFun(@RequestParam(required = false) String id, @RequestParam(required = false) String q, HttpServletRequest request) {
+    public Result queryFun(@RequestParam(required = false) String id, @RequestParam(required = false) String q, HttpServletRequest request, HttpServletResponse response) {
 
         if (null != q && "" != q) {
-            PageHelper.startPage(1, 10, q);
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), q);
         } else {
-            PageHelper.startPage(1, 10, "created_at desc");
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), "created_at desc");
         }
-
+        List<FunDTO> list = new ArrayList<>();
         if (null != id) {
             FunDTO funDTO = funService.selectFunByFunId(Long.parseLong(id));
-            return Result.success(funDTO);
+            list.add(funDTO);
+            response.setHeader("X-Total-Count", "1");
         } else {
-            List<FunDTO> list = funService.selectAllFunByPage();
+             list = funService.selectAllFunByPage();
             PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
-            return Result.success(pageInfo);
+            response.setHeader("X-Total-Count", pageInfo.getTotal() + "");
         }
-
+        return Result.success(list);
     }
 
     /**
