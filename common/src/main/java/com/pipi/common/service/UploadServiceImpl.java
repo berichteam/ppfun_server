@@ -86,7 +86,7 @@ public class UploadServiceImpl implements UploadService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String finalUrl=ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
+        String finalUrl="https://"+ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
 //        // 删除文件。
 //        ossClient.deleteObject(ossProperties.getBucketNamePublic(), fileName+timeName);
         ossClient.shutdown();
@@ -100,7 +100,7 @@ public class UploadServiceImpl implements UploadService {
         // 拷贝文件
         CopyObjectResult result = ossClient.copyObject(ossProperties.getBucketNamePrivate(), originalImageName, ossProperties.getBucketNamePublic(),blurImageName);
         ossClient.shutdown();
-        String finalUrl=ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
+        String finalUrl="https://"+ossProperties.getBucketNamePublic()+"."+ossProperties.getEndpoint()+"/"+blurImageName;
         return finalUrl;
     }
 

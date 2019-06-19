@@ -130,9 +130,9 @@ public class FunController {
 
     @PostMapping(value = "/{id}/like")
     public Result funLike(@PathVariable String id, @RequestBody FunGift funGift, HttpServletRequest request) {
-//        Users user = (Users) request.getAttribute("user");
+        Users user = (Users) request.getAttribute("user");
         funGift.setFunId(Long.parseLong(id));
-//        funStar.setUserId(user.getId());
+        funGift.setUserId(user.getId());
         funGift.setCreatedAt(new Date());
         funService.funGift(funGift);
         return Result.success(funGift);
@@ -140,10 +140,10 @@ public class FunController {
 
     @GetMapping(value = "/{id}/viewed")
     public Result funView(@PathVariable String id, HttpServletRequest request) {
-//        Users user = (Users) request.getAttribute("user");
+        Users user = (Users) request.getAttribute("user");
         FunView funView = new FunView();
         funView.setFunId(Long.parseLong(id));
-//        funView.setUserId(user.getId());
+        funView.setUserId(user.getId());
         funService.funView(funView);
         return Result.success(funView);
     }

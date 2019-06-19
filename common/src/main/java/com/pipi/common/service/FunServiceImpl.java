@@ -62,7 +62,8 @@ public class FunServiceImpl implements FunService {
         } else if (funVo.getAuthority() == 4) {
             fun.setPassword(funVo.getPassword());
         }
-        funVo.setId(funMapper.insert(fun));
+        funMapper.insert(fun);
+        funVo.setId(fun.getId());
         //持久化FunImages
         for (FunImagesVo funImagesVo : funVo.getImages()
         ) {

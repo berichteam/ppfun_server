@@ -181,11 +181,11 @@ public class test1 {
         return (BufferedImage) destImage;
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        // 依次为内容,宽,长,logo图标路径,储存路径
-        test1.encode("https://www.baidu.com/", 500, 500, "C:\\Users\\Administrator\\Desktop\\picture\\2.jpg",
-                "C:\\Users\\Administrator\\Desktop\\picture\\test1.jpg");
-    }
+//    public static void main(String[] args) throws UnsupportedEncodingException {
+//        // 依次为内容,宽,长,logo图标路径,储存路径
+//        test1.encode("https://www.baidu.com/", 500, 500, "C:\\Users\\Administrator\\Desktop\\picture\\2.jpg",
+//                "C:\\Users\\Administrator\\Desktop\\picture\\test1.jpg");
+//    }
 
 
 }
