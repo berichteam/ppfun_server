@@ -211,7 +211,7 @@ public class UserController {
      * @param params
      * @return
      */
-    @PutMapping("/user/phone/{socialType}")
+    @PutMapping("/user/social/phone/{socialType}")
     public Result refreshPhone(@PathVariable String socialType,
                                @RequestBody Map<String, String> params,
                                HttpServletRequest request) {
