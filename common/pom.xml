@@ -24,6 +24,13 @@
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
+            <!--<resource>-->
+                <!--<directory>src/main/resources/lib</directory>-->
+                <!--<targetPath>BOOT-INF/lib/</targetPath>-->
+                <!--<includes>-->
+                    <!--<include>**/*.jar</include>-->
+                <!--</includes>-->
+            <!--</resource>-->
         </resources>
 
 
@@ -99,12 +106,28 @@
             <optional>true</optional>
         </dependency>
 
+        <!--单元测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!--二维码-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <version>3.3.3</version>
         </dependency>
+        <!--二维码-->
+        <dependency>
+            <groupId>com.swetake.util</groupId>
+            <artifactId>Qrcode</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/Qrcode.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
 

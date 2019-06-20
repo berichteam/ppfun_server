@@ -3,11 +3,13 @@ package com.pipi.common.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 @Data
+@ToString
 public class FunVo implements Serializable {
 
     private Long id;

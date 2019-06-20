@@ -53,8 +53,12 @@ public class FunServiceImpl implements FunService {
         //持久化Fun
         Fun fun = new Fun();
         fun.setUserId(funVo.getUserId());
-        fun.setTitle(funVo.getTitle());
-        fun.setContent(funVo.getContent());
+        if (null != funVo.getTitle() || !"".equals(funVo.getTitle())) {
+            fun.setTitle(funVo.getTitle());
+        }
+        if (null != funVo.getContent() || !"".equals(funVo.getContent())) {
+            fun.setContent(funVo.getContent());
+        }
         fun.setAuthority(funVo.getAuthority());
         fun.setCreatedAt(new Date());
         if (funVo.getAuthority() == 3) {
@@ -78,19 +82,21 @@ public class FunServiceImpl implements FunService {
             funImages.setFunId(fun.getId());
             funImages.setAttachmentId(attachment.getId());
             funImages.setBlur(funImagesVo.getBlur());
-            funImages.setDescription(funImagesVo.getDesc());
+            if (null != funImagesVo.getDesc() || !"".equals(funImagesVo.getDesc())) {
+                funImages.setDescription(funImagesVo.getDesc());
+            }
 
             if (funImagesVo.getBlur() == 1) {
                 //将文件复制到公告bucket中
-               String finalUrl= uploadService.handleFileInOSSByBlur(originalImageName, blurImageName);
+                String finalUrl = uploadService.handleFileInOSSByBlur(originalImageName, blurImageName);
                 funImages.setImageUrl(finalUrl);
             } else {
-                String finalUrl= uploadService.handleFileInOSSByCopy(originalImageName, blurImageName);
+                String finalUrl = uploadService.handleFileInOSSByCopy(originalImageName, blurImageName);
                 funImages.setImageUrl(finalUrl);
             }
             funImagesMapper.insert(funImages);
         }
-        return  funVo;
+        return funVo;
     }
 
     @Override
