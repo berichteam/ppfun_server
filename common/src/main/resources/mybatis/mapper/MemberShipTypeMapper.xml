@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.MemberShipTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.MemberShipType" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="member_type" property="memberType" jdbcType="INTEGER" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="reserved_days" property="reservedDays" jdbcType="INTEGER" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from member_ship_type
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pipi.common.domain.MemberShipType" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member_ship_type (member_type, `desc`, price, 
+      reserved_days, created_at, updated_at
+      )
+    values (#{memberType,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{reservedDays,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.MemberShipType" >
+    update member_ship_type
+    set member_type = #{memberType,jdbcType=INTEGER},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      reserved_days = #{reservedDays,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, member_type, `desc`, price, reserved_days, created_at, updated_at
+    from member_ship_type
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, member_type, `desc`, price, reserved_days, created_at, updated_at
+    from member_ship_type
+  </select>
+</mapper>

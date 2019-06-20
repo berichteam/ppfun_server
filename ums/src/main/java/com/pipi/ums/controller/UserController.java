@@ -240,4 +240,21 @@ public class UserController {
         }
     }
 
+    /**
+     * 获得用户的社交信息
+     * @return
+     */
+    @GetMapping("/user/social/info/{socialType}")
+    public Result socialInfo(@PathVariable String socialType, HttpServletRequest request) {
+        if (!socialType.equals("wechat")) {
+            return Result.failure(ResultCode.FAILURE, "暂不支持该渠道登录");
+        }
+        Users user = (Users)request.getAttribute("user");
+        if (user == null) {
+            return Result.failure(ResultCode.FAILURE);
+        }
+        UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
+        return Result.success(ResultCode.SUCCESS, userSocial);
+    }
+
 }

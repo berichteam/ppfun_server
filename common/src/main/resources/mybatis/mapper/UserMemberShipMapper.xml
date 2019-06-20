@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.UserMemberShipMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.UserMemberShip" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="member_grade" property="memberGrade" jdbcType="INTEGER" />
+    <result column="first_deposit_time" property="firstDepositTime" jdbcType="TIMESTAMP" />
+    <result column="last_deposit_time" property="lastDepositTime" jdbcType="TIMESTAMP" />
+    <result column="deadline" property="deadline" jdbcType="TIMESTAMP" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pipi.common.domain.UserMemberShip" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_member_ship (user_id, type_id, member_grade, 
+      first_deposit_time, last_deposit_time, 
+      deadline, created_at, updated_at
+      )
+    values (#{userId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{memberGrade,jdbcType=INTEGER}, 
+      #{firstDepositTime,jdbcType=TIMESTAMP}, #{lastDepositTime,jdbcType=TIMESTAMP}, 
+      #{deadline,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, type_id, member_grade, first_deposit_time, last_deposit_time, 
+    deadline, created_at, updated_at
+    from user_member_ship
+  </select>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pipi.common.persistence.mapper.UserOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.pipi.common.domain.UserOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_type" property="productType" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
+    <result column="trade_channel" property="tradeChannel" jdbcType="INTEGER" />
+    <result column="product_amount" property="productAmount" jdbcType="INTEGER" />
+    <result column="product_no" property="productNo" jdbcType="VARCHAR" />
+    <result column="trade_type" property="tradeType" jdbcType="VARCHAR" />
+    <result column="prepay_id" property="prepayId" jdbcType="VARCHAR" />
+    <result column="trade_state" property="tradeState" jdbcType="VARCHAR" />
+    <result column="trade_status" property="tradeStatus" jdbcType="INTEGER" />
+    <result column="transaction_id" property="transactionId" jdbcType="VARCHAR" />
+    <result column="bank_type" property="bankType" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="pay_at" property="payAt" jdbcType="TIMESTAMP" />
+    <result column="finsh_at" property="finshAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pipi.common.domain.UserOrder" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_order (product_type, product_id, user_id, 
+      trade_no, total_fee, trade_channel, 
+      product_amount, product_no, trade_type, 
+      prepay_id, trade_state, trade_status, 
+      transaction_id, bank_type, created_at, 
+      pay_at, finsh_at, updated_at
+      )
+    values (#{productType,jdbcType=INTEGER}, #{productId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{tradeNo,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, #{tradeChannel,jdbcType=INTEGER}, 
+      #{productAmount,jdbcType=INTEGER}, #{productNo,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
+      #{prepayId,jdbcType=VARCHAR}, #{tradeState,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=INTEGER}, 
+      #{transactionId,jdbcType=VARCHAR}, #{bankType,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{payAt,jdbcType=TIMESTAMP}, #{finshAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.UserOrder" >
+    update user_order
+    set product_type = #{productType,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=DECIMAL},
+      trade_channel = #{tradeChannel,jdbcType=INTEGER},
+      product_amount = #{productAmount,jdbcType=INTEGER},
+      product_no = #{productNo,jdbcType=VARCHAR},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      prepay_id = #{prepayId,jdbcType=VARCHAR},
+      trade_state = #{tradeState,jdbcType=VARCHAR},
+      trade_status = #{tradeStatus,jdbcType=INTEGER},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      bank_type = #{bankType,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      pay_at = #{payAt,jdbcType=TIMESTAMP},
+      finsh_at = #{finshAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, product_type, product_id, user_id, trade_no, total_fee, trade_channel, 
+    product_amount, product_no, trade_type, prepay_id, trade_state, trade_status, transaction_id, 
+    bank_type, created_at, pay_at, finsh_at, updated_at
+    from user_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, product_type, product_id, user_id, trade_no, total_fee, trade_channel, 
+    product_amount, product_no, trade_type, prepay_id, trade_state, trade_status, transaction_id, 
+    bank_type, created_at, pay_at, finsh_at, updated_at
+    from user_order
+  </select>
+</mapper>
