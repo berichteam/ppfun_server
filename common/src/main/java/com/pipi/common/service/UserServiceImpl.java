@@ -13,6 +13,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -157,5 +158,20 @@ public class UserServiceImpl implements UserService {
     public int updatePhoneBySocial(Users user, String phone) {
         user.setPhone(phone);
         return usersMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public List<UserSocial> findListByUser(Users user) {
+        return userSocialMapper.findListByUser(user.getId());
+    }
+
+    @Override
+    public List<Users> findListByIds(String ids) {
+        String[] idArray = ids.split(",");
+        List<Users> ulist = new ArrayList<>();
+        for (String id : idArray) {
+            ulist.add(usersMapper.selectByPrimaryKey(Long.valueOf(id)));
+        }
+        return ulist;
     }
 }

@@ -21,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -255,6 +257,36 @@ public class UserController {
         }
         UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
         return Result.success(ResultCode.SUCCESS, userSocial);
+    }
+
+    /**
+     * 根据id列表获得用户列表
+     * @param ids
+     * @return
+     */
+    @GetMapping("/user/info")
+    public Result getInfo(@RequestParam String ids) {
+        List<Map<String, Object>> res = new ArrayList<>();
+        List<Users> users = userService.findListByIds(ids);
+        for (Users user : users) {
+            Map<String, Object> ures = new HashMap<>();
+            ures.put("id", user.getId());
+            ures.put("phone", user.getPhone());
+            ures.put("username", user.getUserName());
+            ures.put("vip", user.getType());
+            List<Map<String, Object>> socials = new ArrayList<>();
+            List<UserSocial> slist = userService.findListByUser(user);
+            for (UserSocial us : slist) {
+                Map<String, Object> sres = new HashMap<>();
+                sres.put("socialType", SocialType.values()[us.getSocialType()].name());
+                sres.put("nickname", us.getNickName());
+                sres.put("avatarUrl", us.getAvatarUrl());
+                socials.add(sres);
+            }
+            ures.put("social", socials);
+            res.add(ures);
+        }
+        return Result.success(ResultCode.SUCCESS, res);
     }
 
 }

@@ -2,10 +2,13 @@ package com.pipi.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.pipi.common.enums.UserType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.joda.time.DateTime;
 
 /**
 * Created by Mybatis Generator 2019/06/18
@@ -53,10 +56,16 @@ public class Users implements Serializable {
         this.userName = userName;
         this.phone = phone;
         this.password = password;
+        this.type = Short.valueOf(String.valueOf(UserType.NORMAL.ordinal()));
+        this.createdAt = DateTime.now().toDate();
+        this.updatedAt = DateTime.now().toDate();
     }
 
     public Users(String userName, String password) {
         this.userName = userName;
         this.password = password;
+        this.type = Short.valueOf(String.valueOf(UserType.NORMAL.ordinal()));
+        this.createdAt = DateTime.now().toDate();
+        this.updatedAt = DateTime.now().toDate();
     }
 }

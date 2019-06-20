@@ -22,4 +22,6 @@ public interface UserSocialMapper {
     UserSocial findBySocialTypeAndOpenId(@Param("socialType") int socialType, @Param("openId") String openId);
 
     UserSocial findByUserAndSocialType(@Param("userId") Long userId, @Param("socialType") int socialType);
+
+    List<UserSocial> findListByUser(@Param("userId") Long userId);
 }

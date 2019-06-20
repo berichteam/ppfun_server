@@ -7,6 +7,8 @@ import com.pipi.common.domain.Users;
 import com.pipi.common.enums.SocialType;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author lazyb
  * @create 2019/5/24
@@ -115,5 +117,19 @@ public interface UserService {
      * @return
      */
     int updatePhoneBySocial(Users user, String phone);
+
+    /**
+     * 查找用户的所有社交信息
+     * @param user
+     * @return
+     */
+    List<UserSocial> findListByUser(Users user);
+
+    /**
+     * 通过逗号分隔的ids找到用户列表
+     * @param ids
+     * @return
+     */
+    List<Users> findListByIds(String ids);
 
 }

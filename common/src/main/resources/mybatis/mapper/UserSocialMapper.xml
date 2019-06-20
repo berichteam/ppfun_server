@@ -74,4 +74,9 @@
     select * from user_social
     where user_id = #{userId} and social_type = #{socialType}
   </select>
+
+  <select id="findListByUser" resultMap="BaseResultMap">
+    select * from user_social
+    where user_id = #{userId}
+  </select>
 </mapper>
