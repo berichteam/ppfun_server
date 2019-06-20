@@ -256,7 +256,13 @@ public class UserController {
             return Result.failure(ResultCode.FAILURE);
         }
         UserSocial userSocial = userService.findByUser(user, SocialType.WECHAT);
-        return Result.success(ResultCode.SUCCESS, userSocial);
+        Map<String, Object> res = new HashMap<>();
+        res.put("nickname", userSocial.getNickName());
+        res.put("avatarUrl", userSocial.getAvatarUrl());
+        res.put("gender", userSocial.getGender());
+        res.put("openid", userSocial.getOpenId());
+        res.put("sessionKey", userSocial.getSessionKey());
+        return Result.success(ResultCode.SUCCESS, res);
     }
 
     /**
