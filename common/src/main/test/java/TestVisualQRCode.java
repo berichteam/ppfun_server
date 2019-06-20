@@ -22,7 +22,7 @@ public class TestVisualQRCode {
     public void testPOSITIONRECTANGLE() {
         String url = "www.baidu.com";
         try {
-            VisualQRCode.createQRCode(url, "C:\\Users\\Administrator\\Desktop\\picture\\2.jpg", outPutPath + "POSITIONRECTANGLE.png", 'M', new Color(2, 85, 43), null, null, null, true,
+            VisualQRCode.createQRCode(url, "C:\\Users\\Administrator\\Desktop\\picture\\8.jpg", outPutPath + "POSITIONRECTANGLE.png", 'M', new Color(2, 85, 43), null, null, null, true,
                     VisualQRCode.POSITION_DETECTION_SHAPE_MODEL_RECTANGLE, VisualQRCode.FILL_SHAPE_MODEL_RECTANGLE);
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class TestVisualQRCode {
     public void testFILLCIRCLE() {
         String url = "www.baidu.com";
         try {
-            VisualQRCode.createQRCode(url, "C:\\Users\\Administrator\\Desktop\\picture\\2.jpg", outPutPath+"FILLCIRCLE.png", 'M', new Color(2, 85, 43), null, null, null, true,
+            VisualQRCode.createQRCode(url, "C:\\Users\\Administrator\\Desktop\\picture\\8.jpg", outPutPath+"FILLCIRCLE.png", 'H', new Color(50, 31, 238), null, null, null, true,
                     VisualQRCode.POSITION_DETECTION_SHAPE_MODEL_ROUND_RECTANGLE, VisualQRCode.FILL_SHAPE_MODEL_CIRCLE);
         } catch (IOException e) {
             e.printStackTrace();

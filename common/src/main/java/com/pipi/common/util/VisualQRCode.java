@@ -439,7 +439,7 @@ public class VisualQRCode {
                                     Integer fillPositionDetectionShapeModel, Integer fillShapeModel) throws IOException {
 
         // 网格大小18*18
-        int UNIT_WIDTH = 54;
+        int UNIT_WIDTH = 108;
 
         // 二维码颜色
         DF = new Color(DF.getRed(), DF.getGreen(), DF.getBlue(), (int) (255 * 0.75));
@@ -683,7 +683,7 @@ public class VisualQRCode {
 
             // 画四个圆滑的大码眼
             Stroke stroke = g.getStroke(); // 得到当前的画刷
-            float thick = UNIT_WIDTH * 1f; // 设置画刷的粗细
+            float thick = 1* 1f; // 设置画刷的粗细
             // 左上角
             g.setColor(LF);
             g.fillRoundRect(startXTemp + 1 * UNIT_WIDTH, startYTemp + 1 * UNIT_WIDTH, 5 * UNIT_WIDTH, 5 * UNIT_WIDTH, UNIT_WIDTH * 1, UNIT_WIDTH * 1);
