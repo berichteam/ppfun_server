@@ -171,8 +171,8 @@ public class FunController {
         funStar.setFunId(Long.parseLong(id));
         funStar.setUserId(user.getId());
         funStar.setCreatedAt(new Date());
-        funService.funStar(funStar);
-        return Result.success(funStar);
+        int res =funService.funStar(funStar);
+        return Result.success(res);
     }
 
     @PostMapping(value = "/{id}/like")
@@ -181,8 +181,8 @@ public class FunController {
         funGift.setFunId(Long.parseLong(id));
         funGift.setUserId(user.getId());
         funGift.setCreatedAt(new Date());
-        funService.funGift(funGift);
-        return Result.success(funGift);
+       int res= funService.funGift(funGift);
+        return Result.success(res);
     }
 
     @GetMapping(value = "/{id}/viewed")
@@ -192,7 +192,7 @@ public class FunController {
         funView.setFunId(Long.parseLong(id));
         funView.setUserId(user.getId());
         funService.funView(funView);
-        return Result.success(funView);
+        return Result.success();
     }
 
 }
