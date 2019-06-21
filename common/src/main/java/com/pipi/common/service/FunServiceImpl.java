@@ -173,4 +173,14 @@ public class FunServiceImpl implements FunService {
     public List<FunDTO> selectMineAllFunByPage(Long userId) {
         return funMapper.selectMineAllFunByPage(userId);
     }
+
+    @Override
+    public List<FunDTO> selectAllMineStaredFunByPage(Long userId) {
+        return funMapper.selectAllMineStaredFunByPage(userId);
+    }
+
+    @Override
+    public FunDTO selectFunByFunIdAndPassword(Long id, String password) {
+        return funMapper.selectFunByFunIdAndPassword(id,password);
+    }
 }

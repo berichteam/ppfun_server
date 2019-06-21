@@ -3,6 +3,7 @@ package com.pipi.ums.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pipi.common.domain.*;
+import com.pipi.common.enums.ResultCode;
 import com.pipi.common.persistence.dto.FunDTO;
 import com.pipi.common.service.inter.FunService;
 import com.pipi.common.vo.FunVo;
@@ -53,7 +54,7 @@ public class FunController {
      * @param request
      * @return
      */
-    @PatchMapping(value = {"/id"})
+    @PatchMapping(value = {"/{id}"})
     public Result editFun(@PathVariable String id, @RequestBody FunVo funVo, HttpServletRequest request) {
         funService.editFun(funVo);
         return Result.success(funVo);
@@ -66,7 +67,7 @@ public class FunController {
      * @param request
      * @return
      */
-    @DeleteMapping(value = {"/id"})
+    @DeleteMapping(value = {"/{id}"})
     public Result deleteFun(@PathVariable String id, @RequestBody FunVo funVo, HttpServletRequest request) {
         funService.deleteFun(Long.parseLong(id));
         return Result.success(funVo);
@@ -102,19 +103,65 @@ public class FunController {
     }
 
     /**
-     * 查询接口
+     * 我发布的
+     *
+     * @param q
+     * @param request
+     * @return
+     */
+    @GetMapping(value = "/mine")
+    public Result mineFun(@RequestParam(required = false) String q, HttpServletRequest request,HttpServletResponse response) {
+        Users user = (Users) request.getAttribute("user");
+        if (null != q && "" != q) {
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), q);
+        } else {
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), "created_at desc");
+        }
+        List<FunDTO> list = funService.selectMineAllFunByPage(user.getId());
+        PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
+        response.setHeader("X-Total-Count", pageInfo.getTotal() + "");
+        return Result.success(list);
+    }
+
+    /**
+     * 我收藏的
+     *
+     * @param q
+     * @param request
+     * @return
+     */
+    @GetMapping(value = "/mine/stared")
+    public Result mineStaredFun(@RequestParam(required = false) String q, HttpServletRequest request,HttpServletResponse response) {
+        Users user = (Users) request.getAttribute("user");
+        if (null != q && "" != q) {
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), q);
+        } else {
+            PageHelper.startPage(Integer.parseInt(request.getHeader("X-Page-Num")), Integer.parseInt(request.getHeader("X-Page-Size")), "created_at desc");
+        }
+        List<FunDTO> list = funService.selectAllMineStaredFunByPage(user.getId());
+        PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
+        response.setHeader("X-Total-Count", pageInfo.getTotal() + "");
+        return Result.success(list);
+    }
+
+
+    /**
+     * 查看加密文章
      *
      * @param id
      * @param request
      * @return
      */
-    @GetMapping(value = "/mine")
-    public Result mineFun(@RequestParam(required = false) String id, @RequestParam(required = false) String q, HttpServletRequest request) {
-        Users user = (Users) request.getAttribute("user");
-        List<FunDTO> list = funService.selectMineAllFunByPage(user.getId());
-        PageInfo<FunDTO> pageInfo = new PageInfo<>(list);
-        return Result.success(pageInfo);
+    @PostMapping(value = "/{id}/encoded")
+    public Result mineStaredFun(@PathVariable String id,@RequestParam String password, HttpServletRequest request,HttpServletResponse response) {
+        FunDTO funDTO = funService.selectFunByFunIdAndPassword(Long.parseLong(id),password);
+        if (funDTO!=null) {
+            return Result.success(funDTO);
+        }else {
+            return Result.failure(ResultCode.SPECIFIED_QUESTIONED_PASSWORD_ERROR);
+        }
     }
+
 
 
     @PostMapping(value = "/{id}/star")

@@ -2,6 +2,7 @@ package com.pipi.common.persistence.mapper;
 
 import com.pipi.common.domain.Fun;
 import com.pipi.common.persistence.dto.FunDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,4 +31,8 @@ public interface FunMapper {
     List<FunDTO> selectAllFunByPage();
 
     List<FunDTO> selectMineAllFunByPage(Long userId);
+
+    List<FunDTO> selectAllMineStaredFunByPage(Long userId);
+
+    FunDTO selectFunByFunIdAndPassword(@Param("id") Long id, @Param("password")  String password);
 }

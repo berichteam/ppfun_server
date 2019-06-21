@@ -32,11 +32,14 @@
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
         <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
         <!--计算用户收藏数-->
-        <association property="starCount" column="id" select="com.pipi.common.persistence.mapper.FunStarMapper.countByFunId"/>
+        <association property="starCount" column="id"
+                     select="com.pipi.common.persistence.mapper.FunStarMapper.countByFunId"/>
         <!--计算用户点赞数-->
-        <association property="giftCount" column="id" select="com.pipi.common.persistence.mapper.FunGiftMapper.countByFunId"/>
+        <association property="giftCount" column="id"
+                     select="com.pipi.common.persistence.mapper.FunGiftMapper.countByFunId"/>
         <!--计算用户浏览数-->
-        <association property="viewCount" column="id" select="com.pipi.common.persistence.mapper.FunViewMapper.countByFunId"/>
+        <association property="viewCount" column="id"
+                     select="com.pipi.common.persistence.mapper.FunViewMapper.countByFunId"/>
         <!--文章图片-->
         <collection property="funImages" ofType="com.pipi.common.domain.FunImages" column="id"
                     select="com.pipi.common.persistence.mapper.FunImagesMapper.selectAllByFunId">
@@ -100,19 +103,19 @@
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status =1
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
-    from fun
+    from fun and  status =1
   </select>
 
     <select id="selectFunByAuthority" parameterType="int" resultMap="FunDTOResultMap">
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
-    where authority = #{authority,jdbcType=INTEGER}
+    where authority = #{authority,jdbcType=INTEGER} and status =1
     </select>
 
     <update id="updateByPrimaryKeyForDelete" parameterType="Long">
@@ -126,20 +129,51 @@
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status =1
     </select>
 
     <select id="selectAllFunByPage" resultMap="FunDTOResultMap">
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
+    where status = 1
     </select>
 
     <select id="selectMineAllFunByPage" resultMap="FunDTOResultMap" parameterType="Long">
     select id, user_id,title,content, authority, `password`, fee, catalog_id, catalog_child_id, tag,
     created_at, updated_at
     from fun
-    where user_id =#{userId,jdbcType=BIGINT}
+    where user_id =#{userId,jdbcType=BIGINT} and status = 1
     </select>
+
+    <select id="selectAllMineStaredFunByPage" resultMap="FunDTOResultMap" parameterType="Long">
+            SELECT
+            f.id,
+            f.user_id,
+            f.title,
+            f.content,
+            f.authority,
+            f.`password`,
+            f.fee,
+            f.catalog_id,
+            f.catalog_child_id,
+            f.tag,
+            f.created_at,
+            f.updated_at
+        FROM
+            fun_star fs
+        LEFT JOIN fun f ON fs.fun_id = f.id
+        WHERE
+            fs.user_id = #{userId,jdbcType=BIGINT}
+        AND f.STATUS = 1
+    </select>
+
+    <select id="selectFunByFunIdAndPassword"  resultMap="FunDTOResultMap">
+    select id, user_id,title,content, authority, fee, catalog_id, catalog_child_id, tag,
+    created_at, updated_at
+    from fun
+    where id = #{id,jdbcType=BIGINT} and password = #{password,jdbcType=BIGINT} and status =1
+    </select>
+
 
 </mapper>

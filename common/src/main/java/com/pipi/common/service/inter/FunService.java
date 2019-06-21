@@ -35,4 +35,7 @@ public interface FunService {
 
     List<FunDTO> selectMineAllFunByPage(Long userId);
 
+    List<FunDTO> selectAllMineStaredFunByPage(Long userId);
+
+    FunDTO selectFunByFunIdAndPassword(Long id,String password);
 }
