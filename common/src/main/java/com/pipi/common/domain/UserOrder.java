@@ -3,10 +3,15 @@ package com.pipi.common.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.pipi.common.enums.ProductType;
+import com.pipi.common.enums.SocialType;
+import com.pipi.common.enums.TradeStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.joda.time.DateTime;
 
 /**
 * Created by Mybatis Generator 2019/06/20
@@ -53,6 +58,21 @@ public class UserOrder implements Serializable {
     private Date finshAt;// 完成时间
 
     private Date updatedAt;
+
+    public UserOrder(ProductType productType, Long productId, Long userId, String tradeNo, BigDecimal totalFee, SocialType socialType,
+                     Integer productAmount, String prepayId) {
+        this.productType = productType.code();
+        this.productId = productId;
+        this.userId = userId;
+        this.tradeNo = tradeNo;
+        this.totalFee = totalFee;
+        this.tradeChannel = socialType.ordinal();
+        this.productAmount = productAmount;
+        this.prepayId = prepayId;
+        this.tradeStatus = TradeStatus.UNPAY.ordinal();
+        this.createdAt = DateTime.now().toDate();
+        this.updatedAt = DateTime.now().toDate();
+    }
 
     private static final long serialVersionUID = 1L;
 

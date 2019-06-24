@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.joda.time.DateTime;
 
 /**
 * Created by Mybatis Generator 2019/06/20
@@ -53,5 +54,16 @@ public class UserMemberShip implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public UserMemberShip(Long userId, Long typeId, Integer days) {
+        this.userId = userId;
+        this.typeId = typeId;
+        this.memberGrade = 1;
+        this.firstDepositTime = DateTime.now().toDate();
+        this.lastDepositTime = DateTime.now().toDate();
+        this.deadline = DateTime.now().plusDays(days).toDate();
+        this.createdAt = DateTime.now().toDate();
+        this.updatedAt = DateTime.now().toDate();
     }
 }
