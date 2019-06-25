@@ -15,6 +15,6 @@ public interface MemberShipService {
      * @param amount 数量
      * @return
      */
-    boolean buyMemberShipAndPreOrder(MemberType memberType, Integer amount);
+    boolean buyMemberShipAndPreOrder(MemberType memberType, Integer amount, Long userId);
 
 }

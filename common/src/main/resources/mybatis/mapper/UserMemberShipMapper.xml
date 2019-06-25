@@ -30,4 +30,29 @@
     deadline, created_at, updated_at
     from user_member_ship
   </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.pipi.common.domain.UserMemberShip" >
+    update user_member_ship
+    set user_id = #{userId,jdbcType=BIGINT},
+    type_id = #{typeId,jdbcType=BIGINT},
+    member_grade = #{memberGrade,jdbcType=INTEGER},
+    first_deposit_time = #{firstDepositTime,jdbcType=TIMESTAMP},
+    last_deposit_time = #{lastDepositTime,jdbcType=TIMESTAMP},
+    deadline = #{deadline,jdbcType=TIMESTAMP},
+    created_at = #{createdAt,jdbcType=TIMESTAMP},
+    updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_member_ship
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, user_id, type_id, member_grade, first_deposit_time, last_deposit_time, deadline,
+    created_at, updated_at
+    from user_member_ship
+    where id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>

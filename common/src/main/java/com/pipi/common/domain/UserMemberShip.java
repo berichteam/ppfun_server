@@ -9,7 +9,7 @@ import lombok.ToString;
 import org.joda.time.DateTime;
 
 /**
-* Created by Mybatis Generator 2019/06/20
+* Created by Mybatis Generator 2019/06/25
 */
 @Getter
 @Setter

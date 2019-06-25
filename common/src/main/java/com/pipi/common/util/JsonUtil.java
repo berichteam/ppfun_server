@@ -1,5 +1,7 @@
 package com.pipi.common.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,7 +18,7 @@ public class JsonUtil {
     private static Gson gson = null;
 
     static{
-        gson  = new Gson();
+        gson  = new Gson();//todo yyyy-MM-dd HH:mm:ss
     }
 
     public static synchronized Gson newInstance(){
@@ -30,9 +32,17 @@ public class JsonUtil {
         return gson.toJson(obj);
     }
 
+    public static String toJsonFast(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
     public static <T> T toBean(String json,Class<T> clz){
 
         return gson.fromJson(json, clz);
+    }
+
+    public static <T> T toBeanFast(String json, Class<T> clz) {
+        return JSON.parseObject(json, clz);
     }
 
     public static <T> Map<String, T> toMap(String json, Class<T> clz){
@@ -42,6 +52,10 @@ public class JsonUtil {
             result.put(key,gson.fromJson(map.get(key),clz) );
         }
         return result;
+    }
+
+    public static Map toFastMap(String json) {
+        return JSONObject.parseObject(json, Map.class);
     }
 
     public static Map<String, Object> toMap(String json){
@@ -55,6 +69,11 @@ public class JsonUtil {
         for(final JsonElement elem : array){
             list.add(gson.fromJson(elem, clz));
         }
+        return list;
+    }
+
+    public static <T> List<T> parseList(String json, Class<T> clz) {
+        List<T> list = JSONObject.parseArray(json, clz);
         return list;
     }
 

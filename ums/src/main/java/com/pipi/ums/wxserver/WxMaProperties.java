@@ -37,4 +37,14 @@ public class WxMaProperties {
      */
     private String msgDataFormat;
 
+    /**
+     * 微信支付商户号
+     */
+    private String mchId;
+
+    /**
+     * 微信支付商户密钥
+     */
+    private String mchKey;
+
 }

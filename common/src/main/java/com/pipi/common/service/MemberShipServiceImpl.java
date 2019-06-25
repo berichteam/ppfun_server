@@ -26,7 +26,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     private UserOrderMapper userOrderMapper;
 
     @Override
-    public boolean buyMemberShipAndPreOrder(MemberType memberType, Integer amount) {
+    public boolean buyMemberShipAndPreOrder(MemberType memberType, Integer amount, Long userId) {
         return false;
     }
 }

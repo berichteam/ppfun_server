@@ -103,13 +103,13 @@
         <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table tableName="user_member_ship" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <table tableName="user_order" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+        <table tableName="user_member_ship" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
         <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
+
+        <!--<table tableName="user_order" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
     </context>
 </generatorConfiguration>

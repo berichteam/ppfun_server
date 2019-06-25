@@ -60,7 +60,7 @@ public class UserOrder implements Serializable {
     private Date updatedAt;
 
     public UserOrder(ProductType productType, Long productId, Long userId, String tradeNo, BigDecimal totalFee, SocialType socialType,
-                     Integer productAmount, String prepayId) {
+                     Integer productAmount) {
         this.productType = productType.code();
         this.productId = productId;
         this.userId = userId;
@@ -68,7 +68,6 @@ public class UserOrder implements Serializable {
         this.totalFee = totalFee;
         this.tradeChannel = socialType.ordinal();
         this.productAmount = productAmount;
-        this.prepayId = prepayId;
         this.tradeStatus = TradeStatus.UNPAY.ordinal();
         this.createdAt = DateTime.now().toDate();
         this.updatedAt = DateTime.now().toDate();
