@@ -23,7 +23,7 @@ import java.util.Map;
  * @desc
  **/
 @Order(1)
-@WebFilter(filterName = "authFilter", urlPatterns = {"/article/*", "/upload/*", "/user/social/*"})
+@WebFilter(filterName = "authFilter", urlPatterns = {"/article/*", "/upload/*", "/user/social/*", "/membership/*"})
 @CommonsLog
 public class AuthFilter implements Filter {
 

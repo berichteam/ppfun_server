@@ -17,4 +17,6 @@ public interface UserMemberShipMapper {
     UserMemberShip selectByPrimaryKey(Long id);
 
     int deleteByPrimaryKey(Long id);
+
+    UserMemberShip findByUserId(Long userId);
 }

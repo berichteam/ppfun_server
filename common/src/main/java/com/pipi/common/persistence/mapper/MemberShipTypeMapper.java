@@ -16,4 +16,6 @@ public interface MemberShipTypeMapper {
     List<MemberShipType> selectAll();
 
     int updateByPrimaryKey(MemberShipType record);
+
+    MemberShipType selectByType(Integer memberType);
 }

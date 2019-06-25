@@ -55,4 +55,9 @@
     from user_member_ship
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="findByUserId" resultMap="BaseResultMap">
+    select * from user_member_ship
+    where user_id = #{userId}
+  </select>
 </mapper>

@@ -1,12 +1,16 @@
-package com.pipi.ums.redis;
+package com.pipi.common.redis;
 
 import com.pipi.common.util.JsonUtil;
+import lombok.extern.apachecommons.CommonsLog;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @desc
  **/
 @Service("redisService")
+@CommonsLog
 public class RedisServiceImpl implements RedisService {
 
     @Override
@@ -33,6 +38,16 @@ public class RedisServiceImpl implements RedisService {
 
     @Autowired
     private RedisTemplate<String, ?> redisTemplate;
+
+    @Autowired
+    RedisAtomicLong redisAtomicLong;
+
+    @Bean
+    public RedisAtomicLong getRedisAtomicLong() {
+        String longKey = DateTime.now().toString("yyyyMMdd");
+        RedisAtomicLong counter = new RedisAtomicLong(longKey, redisTemplate.getConnectionFactory());
+        return counter;
+    }
 
     @Override
     public boolean set(final String key, final String value) {
@@ -130,6 +145,20 @@ public class RedisServiceImpl implements RedisService {
                 redisTemplate.delete(CollectionUtils.arrayToList(key));
             }
         }
+    }
+
+    @Override
+    public long getRedisSequence() {
+        long sequence = 0L;
+        try {
+            if (redisAtomicLong.get() == 0) {
+                redisAtomicLong.getAndSet(0L);
+            }
+            sequence = redisAtomicLong.incrementAndGet();
+        } catch (Exception ex) {
+            log.error("Failed to get sequence.", ex);
+        }
+        return sequence;
     }
 
 }

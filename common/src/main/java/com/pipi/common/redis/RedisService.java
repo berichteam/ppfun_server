@@ -1,4 +1,4 @@
-package com.pipi.ums.redis;
+package com.pipi.common.redis;
 
 import java.util.List;
 
@@ -28,5 +28,7 @@ public interface RedisService {
     String lpop(String key);
 
     void del(String... key);
+
+    long getRedisSequence();
 
 }
