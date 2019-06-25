@@ -41,12 +41,12 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, member_type, `desc`, price, reserved_days, created_at, updated_at
+    select id, member_ship_type, `desc`, price, reserved_days, created_at, updated_at
     from member_ship_type
   </select>
 
   <select id="selectByType" resultMap="BaseResultMap">
-    select * from member_type
+    select * from member_ship_type
     where member_type = #{memberType}
   </select>
 </mapper>
