@@ -60,6 +60,7 @@
         </javaClientGenerator>
 
         <!--表名-->
+        <!--请注意 同样的表名不要反复生成，会造成路径错误-->
         <!--<table tableName="fun" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
         <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
@@ -103,13 +104,19 @@
         <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table tableName="user_member_ship" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table tableName="user_member_ship" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table tableName="user_order" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
         <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table tableName="gift" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+        <table tableName="gift_buy" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
     </context>
 </generatorConfiguration>
