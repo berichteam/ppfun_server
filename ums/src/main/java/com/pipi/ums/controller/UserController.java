@@ -275,6 +275,9 @@ public class UserController {
         List<Map<String, Object>> res = new ArrayList<>();
         List<Users> users = userService.findListByIds(ids);
         for (Users user : users) {
+            if (user == null) {
+                continue;
+            }
             Map<String, Object> ures = new HashMap<>();
             ures.put("id", user.getId());
             ures.put("phone", user.getPhone());
